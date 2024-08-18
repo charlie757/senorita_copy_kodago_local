@@ -1,0 +1,155 @@
+{
+  "project_info": {
+    "project_number": "677916344745",
+    "firebase_url": "https://astroappproviderios.firebaseio.com",
+    "project_id": "astroappproviderios",
+    "storage_bucket": "astroappproviderios.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677916344745:android:dc803811b4e1382a7444b8",
+        "android_client_info": {
+          "package_name": "com.app.coachingreview"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSwGWAI3R-PLFs0l2r2C9roeYML3cBzg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677916344745-gjjacaqf2fbbu8pdgajdb9p5pht9bf80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ankur.Astro-App-Pro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677916344745:android:3bd38b45fbe4323d7444b8",
+        "android_client_info": {
+          "package_name": "com.app.kodagobusiness"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSwGWAI3R-PLFs0l2r2C9roeYML3cBzg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677916344745-gjjacaqf2fbbu8pdgajdb9p5pht9bf80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ankur.Astro-App-Pro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677916344745:android:da9b606160c8f1b77444b8",
+        "android_client_info": {
+          "package_name": "com.app.kodagolocal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSwGWAI3R-PLFs0l2r2C9roeYML3cBzg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677916344745-gjjacaqf2fbbu8pdgajdb9p5pht9bf80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ankur.Astro-App-Pro"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:677916344745:android:a616c2b459348ee47444b8",
+        "android_client_info": {
+          "package_name": "com.app.senoritaApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSwGWAI3R-PLFs0l2r2C9roeYML3cBzg8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "677916344745-21p3gcna763jebnrcnkn7ds1totiv9ci.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "677916344745-gjjacaqf2fbbu8pdgajdb9p5pht9bf80.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ankur.Astro-App-Pro"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
