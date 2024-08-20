@@ -804,7 +804,9 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                       onTap: () {
                                         Get.to(
                                             ImgView(
-                                                controller.photosList, index),
+                                                imgList: controller.photosList,
+                                                index: index,
+                                                route: "list"),
                                             transition: Transition.cupertino);
                                         // _showImageDialog(context,  ApiUrls.offerImageBase  + model.banner);
                                       },

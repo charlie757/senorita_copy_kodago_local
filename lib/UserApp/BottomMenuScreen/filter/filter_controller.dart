@@ -14,6 +14,8 @@ class FilterController extends GetxController {
   final selectedFilterIndex = 0.obs;
   final selectedRating = 0.0.obs;
   final currentRangeValues = 0.0.obs;
+
+  final isChangeDistanceValue = false.obs;
   List<FilterCatSubCatModel> categoryList = [];
   var subCatModel = ExpertSubCatCatSubCatModel().obs;
   var categoryModel = ExpertCategorySubCatModel().obs;
@@ -49,6 +51,7 @@ class FilterController extends GetxController {
   final route = ''.obs;
   @override
   void onInit() async {
+    isChangeDistanceValue.value = false;
     route.value = Get.arguments[0]!;
     selectedCategoryNameBySingleScreen.value = Get.arguments[2]! ?? "";
     selectedCategoryIdBySingleScreen.value = Get.arguments[1]! ?? "";
@@ -70,7 +73,11 @@ class FilterController extends GetxController {
     List subCatList = [];
     if (body != null) {
       if (route.value == 'offer' || selectedCategoryIdBySingleScreen.isEmpty) {
-        selectedPriceValue.value = body['price'];
+        selectedPriceValue.value = body['price'] == 'desc'
+            ? priceList[0]
+            : body['price'] == 'asc'
+                ? priceList[1]
+                : '';
         selectedDiscountValue.value = body['discount'];
         selectedSort.value = body['arrivals'].isNotEmpty
             ? 1
@@ -115,7 +122,11 @@ class FilterController extends GetxController {
           }
         }
       } else {
-        selectedPriceValue.value = body['price'];
+        selectedPriceValue.value = body['price'] == 'desc'
+            ? priceList[0]
+            : body['price'] == 'asc'
+                ? priceList[1]
+                : '';
         selectedDiscountValue.value = body['discount'];
         selectedSort.value = body['arrivals'].isNotEmpty
             ? 2

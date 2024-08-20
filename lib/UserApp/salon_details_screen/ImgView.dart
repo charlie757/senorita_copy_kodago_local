@@ -14,19 +14,27 @@ import 'indication.dart';
 class ImgView extends StatefulWidget {
   final List imgList;
   final int index;
-  const ImgView(this.imgList, this.index, {super.key});
+  final String route;
+  final String img;
+  const ImgView(
+      {required this.imgList,
+      required this.index,
+      required this.route,
+      this.img = '',
+      super.key});
   @override
   State<ImgView> createState() => _ImgViewState();
 }
+
 class _ImgViewState extends State<ImgView> {
   int index = 0;
 
   @override
   void initState() {
-    index= widget.index;
-
+    index = widget.index;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,36 +63,45 @@ class _ImgViewState extends State<ImgView> {
       backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.only(bottom: 20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child:    PhotoViewGallery.builder(
-                scrollPhysics: const BouncingScrollPhysics(),
-                builder: (BuildContext context, int index) {
-                  return PhotoViewGalleryPageOptions(
-                    imageProvider: NetworkImage(ApiUrls.expertImageBase + widget.imgList[index].toString()),
-                    initialScale: PhotoViewComputedScale.contained * .97,
-                    minScale: PhotoViewComputedScale.contained*.9,
-                  );
-                },
-                itemCount: widget.imgList.length,
-                backgroundDecoration:const BoxDecoration(color: Colors.transparent),
-                pageController:  PageController(initialPage: widget.index,viewportFraction: 1),
-                onPageChanged: (val){
-                  index = val;
-                  setState(() {
-                  });
-                },
+        child: widget.route == 'single'
+            ? PhotoView(
+                imageProvider: NetworkImage(widget.img),
+                backgroundDecoration:
+                    const BoxDecoration(color: Colors.transparent),
+                initialScale: PhotoViewComputedScale.contained * .97,
+                minScale: PhotoViewComputedScale.contained * .9,
               )
-            ),
-            Row(
+            : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List<Widget>.generate(widget.imgList.length, (i) => Indicator(index == i ? true : false))),
-          ],
-        ),
+                children: [
+                  Expanded(
+                      child: PhotoViewGallery.builder(
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    builder: (BuildContext context, int index) {
+                      return PhotoViewGalleryPageOptions(
+                        imageProvider: NetworkImage(ApiUrls.expertImageBase +
+                            widget.imgList[index].toString()),
+                        initialScale: PhotoViewComputedScale.contained * .97,
+                        minScale: PhotoViewComputedScale.contained * .9,
+                      );
+                    },
+                    itemCount: widget.imgList.length,
+                    backgroundDecoration:
+                        const BoxDecoration(color: Colors.transparent),
+                    pageController: PageController(
+                        initialPage: widget.index, viewportFraction: 1),
+                    onPageChanged: (val) {
+                      index = val;
+                      setState(() {});
+                    },
+                  )),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List<Widget>.generate(widget.imgList.length,
+                          (i) => Indicator(index == i ? true : false))),
+                ],
+              ),
       ),
     );
   }
-
 }

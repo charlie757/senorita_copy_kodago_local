@@ -37,17 +37,31 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                     SingleChildScrollView(
                       child: Column(
                         children: [
-                          Obx(() => CachedNetworkImage(
-                                fit: BoxFit.cover,
-                                width: MediaQuery.of(context).size.width,
-                                height: 250,
-                                imageUrl: controller.image.value.toString(),
-                                errorWidget: (context, url, error) =>
-                                    Image.network(
-                                  "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
+                          Obx(() => GestureDetector(
+                                onTap: () {
+                                  if (controller.image.value.isNotEmpty) {
+                                    Get.to(
+                                        ImgView(
+                                          imgList: [],
+                                          img: controller.image.value,
+                                          index: 0,
+                                          route: 'single',
+                                        ),
+                                        transition: Transition.cupertino);
+                                  }
+                                },
+                                child: CachedNetworkImage(
                                   fit: BoxFit.cover,
-                                  height: 250,
                                   width: MediaQuery.of(context).size.width,
+                                  height: 250,
+                                  imageUrl: controller.image.value.toString(),
+                                  errorWidget: (context, url, error) =>
+                                      Image.network(
+                                    "https://raysensenbach.com/wp-content/uploads/2013/04/default.jpg",
+                                    fit: BoxFit.cover,
+                                    height: 250,
+                                    width: MediaQuery.of(context).size.width,
+                                  ),
                                 ),
                               )),
                           Card(
@@ -1024,7 +1038,10 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                                       onTap: () {
                                         Get.to(
                                             ImgView(
-                                                controller.photosList, index),
+                                              imgList: controller.photosList,
+                                              index: index,
+                                              route: 'list',
+                                            ),
                                             transition: Transition.cupertino);
                                         // _showImageDialog(context,  ApiUrls.offerImageBase  + model.banner);
                                       },
