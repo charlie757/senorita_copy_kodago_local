@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,9 +6,7 @@ import '../../../api_config/ApiConstant.dart';
 import '../../../api_config/Api_Url.dart';
 import '../../../utils/showcircledialogbox.dart';
 import '../../../utils/size_config.dart';
-import '../../../utils/toast.dart';
 import '../../../widget/error_box.dart';
-import '../../../widget/success_box.dart';
 
 class UserRegistrationController extends GetxController {
   final fullNameController = TextEditingController();

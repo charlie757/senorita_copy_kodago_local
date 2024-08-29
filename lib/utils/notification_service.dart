@@ -2,9 +2,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("Handling a background message: ${message.messageId}");
@@ -26,7 +24,6 @@ class NotificationService {
 
 
   Future initialize() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
     await Firebase.initializeApp();
     FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler,

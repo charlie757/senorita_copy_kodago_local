@@ -8,6 +8,7 @@ import 'package:senorita/ExpertApp/BottomMenuScreen/expert_qr_screen/expertQrScr
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:senorita/api_config/Api_Url.dart';
 import 'package:senorita/helper/network_image_helper.dart';
+import 'package:senorita/widget/no_data_found.dart';
 import '../../../UserApp/Salon_details_screen/ImgView.dart';
 import '../../../helper/appimage.dart';
 import '../../../helper/getText.dart';
@@ -575,7 +576,7 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                             child: menuUi(context, index)),
                       );
                     })
-                : noDataFoundWidget(context))
+                : noDataFound())
             : controller.selectedTabValue == 2
                 ? Padding(
                     padding: const EdgeInsets.only(left: 0, right: 0),
@@ -770,12 +771,12 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                   ),
                                 ],
                               )
-                            : noDataFoundWidget(context)
+                            : noDataFound()
                       ],
                     ),
                   )
                 : Obx(() => controller.photosList.isEmpty
-                    ? noDataFoundWidget(context)
+                    ? noDataFound()
                     : GridView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
@@ -1162,27 +1163,6 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
             ),
           );
         });
-  }
-
-  Widget noDataFoundWidget(BuildContext context) {
-    return Center(
-      child: Column(
-        children: [
-          Image.asset(
-            width: MediaQuery.of(context).size.width,
-            height: 80,
-            AppImages.noDataFound,
-          ),
-          getText(
-              lineHeight: 1.6,
-              title: "No Data Found",
-              size: 14,
-              fontFamily: interSemiBold,
-              color: ColorConstant.blackColor,
-              fontWeight: FontWeight.w600),
-        ],
-      ),
-    );
   }
 
   AppBar appBar(

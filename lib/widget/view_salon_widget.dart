@@ -1,9 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:senorita/api_config/Api_Url.dart';
 import 'package:senorita/helper/network_image_helper.dart';
-import 'package:senorita/model/home_user_screen_model.dart';
 import 'package:senorita/utils/extension.dart';
 
 import '../helper/appimage.dart';

@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/gestures.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -7,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../ScreenRoutes/routes.dart';
 import '../../helper/appbar.dart';
 import '../../helper/appimage.dart';
-import '../../helper/custombtn.dart';
 import '../../helper/custombtn_new.dart';
 import '../../helper/getText.dart';
 import '../../utils/color_constant.dart';
@@ -20,7 +17,6 @@ import 'controller/user_registration_controller.dart';
 
 class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
   const UserRegistrationScreen({key});
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +38,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ScreenSize.height(50),
-                     getText(
+                    getText(
                         title: registerAccountSubTitle,
                         textAlign: TextAlign.center,
                         size: 14,
@@ -51,7 +47,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                         fontWeight: FontWeight.w500),
                     ScreenSize.height(20),
                     Padding(
-                      padding: const EdgeInsets.only(top: 10,bottom: 10),
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Column(
                         children: [
                           Padding(
@@ -70,9 +66,10 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                                 return null;
                               },
                             ),
-
                           ),
-                         const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: CustomTextField(
@@ -81,7 +78,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               auto: AutovalidateMode.onUserInteraction,
                               textInputAction: TextInputAction.next,
                               inputFormatters: [
-                                 LengthLimitingTextInputFormatter(10),
+                                LengthLimitingTextInputFormatter(10),
                               ],
                               textInputType: TextInputType.number,
                               controller: controller.numberController,
@@ -95,7 +92,9 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               },
                             ),
                           ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: CustomTextField(
@@ -104,16 +103,18 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               auto: AutovalidateMode.onUserInteraction,
                               textInputAction: TextInputAction.done,
                               controller: controller.emailController,
-                              validator: (value) {
-                                if (value == null ||
-                                    (!isValidEmail(value, isRequired: true))) {
-                                  return "Please enter valid email";
-                                }
-                                return null;
-                              },
+                              // validator: (value) {
+                              //   if (value == null ||
+                              //       (!isValidEmail(value, isRequired: true))) {
+                              //     return "Please enter valid email";
+                              //   }
+                              //   return null;
+                              // },
                             ),
                           ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: CustomTextField(
@@ -130,114 +131,107 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               //   return null;
                               // },
                             ),
-
                           ),
-
                         ],
                       ),
                     ),
                     Row(
                       children: [
-                        Obx(() => Transform.translate(
-                          
-                          offset: const Offset(-8, 0),
-                          child: Transform.scale(
-                            scale: 1.1,
-                            child: Checkbox(
-                              value:controller.checkBoxValue.value,
-                              checkColor: ColorConstant.whiteColor,
-                              activeColor: ColorConstant.onBoardingBack,
-
-                              side:const BorderSide(
-                                color: ColorConstant.checkBox, //your desire colour here
-                                width: 1,
-                              ),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2,),
-                                  side:const BorderSide(color: Colors.deepPurple)
-                              ),
-                              onChanged: (bool? value) {
-                                controller.checkBoxValue.value = value!;
-                                if(value==true)
-                                  {
-                                    controller.termsConditionValue.value=1;
+                        Obx(
+                          () => Transform.translate(
+                            offset: const Offset(-8, 0),
+                            child: Transform.scale(
+                              scale: 1.1,
+                              child: Checkbox(
+                                value: controller.checkBoxValue.value,
+                                checkColor: ColorConstant.whiteColor,
+                                activeColor: ColorConstant.onBoardingBack,
+                                side: const BorderSide(
+                                  color: ColorConstant
+                                      .checkBox, //your desire colour here
+                                  width: 1,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(
+                                      2,
+                                    ),
+                                    side: const BorderSide(
+                                        color: Colors.deepPurple)),
+                                onChanged: (bool? value) {
+                                  controller.checkBoxValue.value = value!;
+                                  if (value == true) {
+                                    controller.termsConditionValue.value = 1;
+                                  } else if (value == true) {
+                                    controller.termsConditionValue.value = 0;
                                   }
-                                else if(value==true)
-                                  {
-                                    controller.termsConditionValue.value=0;
-                                  }
-                              },
+                                },
+                              ),
                             ),
                           ),
-                        ),
                         ),
                         Transform.translate(
-                            offset: const Offset(-13, 0),
-                            child:   Padding(
-                          padding:  const EdgeInsets.only(top: 0),
-                          child: RichText(
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            text: TextSpan(
-                              text: loginAgree,
-                              style:  TextStyle(
-                                color: ColorConstant.grayColor,
-                                fontSize: 12,
-                                fontFamily: interRegular,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: loginTerms,
-                                  style: const TextStyle(
-                                    color: ColorConstant.onBoardingBack,
-                                    fontSize: 12,
-                                    fontFamily: interRegular,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = () {
-                                    Get.toNamed(AppRoutes.helpSupportScreen,arguments: ['termsCondition',""]);
-
-                                    },
-
+                          offset: const Offset(-13, 0),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: RichText(
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              text: TextSpan(
+                                text: loginAgree,
+                                style: TextStyle(
+                                  color: ColorConstant.grayColor,
+                                  fontSize: 12,
+                                  fontFamily: interRegular,
                                 ),
-
-                              ],
+                                children: [
+                                  TextSpan(
+                                    text: loginTerms,
+                                    style: const TextStyle(
+                                      color: ColorConstant.onBoardingBack,
+                                      fontSize: 12,
+                                      fontFamily: interRegular,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Get.toNamed(AppRoutes.helpSupportScreen,
+                                            arguments: ['termsCondition', ""]);
+                                      },
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                        ),),
-
+                        ),
                       ],
                     ),
                     ScreenSize.height(15),
                     Obx(
                       () => CustomBtnNew(
-                          title: createBtn,
-                          height: 50,
-                          width: double.infinity,
-                          color: ColorConstant.onBoardingBack,
-                          isLoading: controller.isLoading.value,
-                          onTap: () {
-                            if (controller.formKey.currentState!.validate()) {
-                              if (controller.checkBoxValue.value) {
-                                controller.signUpApiFunction(context);
-
-                              } else {
-                                showToast(signUpCheckBoxValidation);
-                              }
-                            } else {}
-
-                          }, textColor: ColorConstant.whiteColor,
+                        title: createBtn,
+                        height: 50,
+                        width: double.infinity,
+                        color: ColorConstant.onBoardingBack,
+                        isLoading: controller.isLoading.value,
+                        onTap: () {
+                          if (controller.formKey.currentState!.validate()) {
+                            if (controller.checkBoxValue.value) {
+                              controller.signUpApiFunction(context);
+                            } else {
+                              showToast(signUpCheckBoxValidation);
+                            }
+                          } else {}
+                        },
+                        textColor: ColorConstant.whiteColor,
                         rectangleBorder: RoundedRectangleBorder(
                           side:
-                          BorderSide(color: Colors.transparent, width: 1.3),
+                              BorderSide(color: Colors.transparent, width: 1.3),
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-
                     ),
                     ScreenSize.height(15),
-                   /* Center(
+                    /* Center(
                       child: Padding(
                         padding:  const EdgeInsets.only(top: 0),
                         child: Row(
@@ -273,7 +267,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                     ),*/
                     Center(
                       child: Padding(
-                        padding:  const EdgeInsets.only(top: 10),
+                        padding: const EdgeInsets.only(top: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -283,14 +277,15 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                                 fontFamily: interRegular,
                                 color: ColorConstant.lightGray,
                                 fontWeight: FontWeight.w500),
-                            const SizedBox(width: 5,),
+                            const SizedBox(
+                              width: 5,
+                            ),
                             GestureDetector(
                               behavior: HitTestBehavior.opaque,
-                              onTap: ()
-                              {
+                              onTap: () {
                                 Get.offNamed(AppRoutes.loginScreen);
                                 controller.resetValues();
-                                controller.checkBoxValue.value=false;
+                                controller.checkBoxValue.value = false;
                               },
                               child: getText(
                                   title: registerLogin,
@@ -312,7 +307,9 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                           color: ColorConstant.dividerColor,
                           height: 1,
                         ),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         getText(
                             title: or,
                             textAlign: TextAlign.start,
@@ -320,7 +317,9 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                             fontFamily: interMedium,
                             color: ColorConstant.lightGray,
                             fontWeight: FontWeight.w400),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Container(
                           width: 150,
                           color: ColorConstant.dividerColor,
@@ -333,8 +332,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GestureDetector(
-                          onTap: ()
-                          {
+                          onTap: () {
                             // controller.signup(context);
                           },
                           child: Container(
@@ -343,11 +341,15 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                             decoration: BoxDecoration(
                                 border: Border.all(
                                   width: 1,
-                                  color: ColorConstant.cardBack,),
-                                borderRadius: BorderRadius.all(Radius.circular(100))),
+                                  color: ColorConstant.cardBack,
+                                ),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100))),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
-                              child: Image.asset(AppImages.google,),
+                              child: Image.asset(
+                                AppImages.google,
+                              ),
                             ),
                           ),
                         ),
@@ -358,11 +360,15 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                           decoration: BoxDecoration(
                               border: Border.all(
                                 width: 1,
-                                color: ColorConstant.cardBack,),
-                              borderRadius: BorderRadius.all(Radius.circular(100))),
+                                color: ColorConstant.cardBack,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(100))),
                           child: Padding(
                             padding: const EdgeInsets.all(10.0),
-                            child: Image.asset(AppImages.facebook,),
+                            child: Image.asset(
+                              AppImages.facebook,
+                            ),
                           ),
                         ),
                       ],

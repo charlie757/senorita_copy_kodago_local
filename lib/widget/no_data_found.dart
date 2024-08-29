@@ -4,7 +4,7 @@ import 'package:senorita/utils/color_constant.dart';
 import '../helper/getText.dart';
 import '../utils/stringConstants.dart';
 
-Widget noDataFound({String title = "No data found"}) {
+Widget noDataFound({String title = "No Record Available"}) {
   return Center(
     child: getText(
         title: title,

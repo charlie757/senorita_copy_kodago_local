@@ -45,12 +45,14 @@ class ExpertRegistrationController extends GetxController {
   final isLoading = false.obs;
   var mobile = "";
   var email = "";
+
   ///Address
   final addressString = "".obs;
   final cityString = "".obs;
   final stateString = "".obs;
   final latString = "".obs;
   final lngString = "".obs;
+
   ///Category data
   RxInt selectedCategoryType = (-1).obs;
   final categoryString = "".obs;
@@ -60,7 +62,6 @@ class ExpertRegistrationController extends GetxController {
   var subCatModel = ExpertSubCategoryModel().obs;
   List selectedSubCatList = [].obs;
   final ne = [].obs;
-
 
   ///Image Picker
   File? imgFile;
@@ -83,12 +84,10 @@ class ExpertRegistrationController extends GetxController {
   List<double> long = []; // Creating an empty list for longitude values
   late GoogleMapController googleMapController;
 
-  var latDouble=0.0;
-  var lngDouble=0.0;
+  var latDouble = 0.0;
+  var lngDouble = 0.0;
 
   File? imageFile;
-
-
 
   @override
   void onInit() {
@@ -96,14 +95,13 @@ class ExpertRegistrationController extends GetxController {
     getCategoryApiFunction();
     super.onInit();
   }
+
   @override
   void dispose() {
-
     // STEP 3
     expertRegistration.currentState?.dispose();
     super.dispose();
   }
-
 
   void showImagePicker(BuildContext context) {
     showModalBottomSheet(
@@ -121,11 +119,11 @@ class ExpertRegistrationController extends GetxController {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10))
-                  //set border radius more than 50% of height and width to make circle
-                ),
+                    //set border radius more than 50% of height and width to make circle
+                    ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -188,7 +186,7 @@ class ExpertRegistrationController extends GetxController {
     if (pickedImage != null) {
       imgUrl.value = pickedImage.path;
     } else {
-     // showToast("Error No image selected");
+      // showToast("Error No image selected");
     }
   }
 
@@ -198,7 +196,6 @@ class ExpertRegistrationController extends GetxController {
     numberController.clear();
     expController.clear();
     aboutUsController.clear();
-
   }
 
   void getUserLocation() async {
@@ -218,11 +215,11 @@ class ExpertRegistrationController extends GetxController {
         return Future.error(
             'Location permissions are permanently denied, we cannot request permissions.');
       }
-      EasyLoading.show(status:"Loading....");
+      EasyLoading.show(status: "Loading....");
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       List<Placemark> placemark =
-      await placemarkFromCoordinates(position.latitude, position.longitude);
+          await placemarkFromCoordinates(position.latitude, position.longitude);
       initialposition = LatLng(position.latitude, position.longitude);
       print(
           "the latitude is: ${position.longitude} and th longitude is: ${position.longitude} ");
@@ -232,30 +229,31 @@ class ExpertRegistrationController extends GetxController {
       latString.value = position.latitude.toString();
       lngString.value = position.longitude.toString();
 
+      // initialposition = LatLng(currentLat.value,currentLong.value);
 
-
-     // initialposition = LatLng(currentLat.value,currentLong.value);
-
-
-     // subLocality.value = placemark[0].subLocality.toString();
-      addressString.value =
-          placemark[0].street.toString()+","+
-              placemark[0].thoroughfare.toString()+","+
-              placemark[0].subLocality.toString()+","+
-              placemark[0].locality.toString()+","+
-              placemark[0].administrativeArea.toString()+","+
-              placemark[0].country.toString();
-      cityString.value=placemark[0].locality.toString();
-      stateString.value=placemark[0].administrativeArea.toString();
+      // subLocality.value = placemark[0].subLocality.toString();
+      addressString.value = placemark[0].street.toString() +
+          "," +
+          placemark[0].thoroughfare.toString() +
+          "," +
+          placemark[0].subLocality.toString() +
+          "," +
+          placemark[0].locality.toString() +
+          "," +
+          placemark[0].administrativeArea.toString() +
+          "," +
+          placemark[0].country.toString();
+      cityString.value = placemark[0].locality.toString();
+      stateString.value = placemark[0].administrativeArea.toString();
       EasyLoading.dismiss();
     }
   }
 
-
   submitProfileImageApi(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(context);
-    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.registerExpert));
+    var request =
+        http.MultipartRequest('POST', Uri.parse(ApiUrls.registerExpert));
     request.fields.addAll({
       'name': fullNameController.text.toString(),
       'mobile': numberController.text.toString(),
@@ -266,64 +264,76 @@ class ExpertRegistrationController extends GetxController {
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
-      'sub_categories': selectedSubCatList.isNotEmpty? selectedSubCatList.map((e) => e['id']).join(','):'',
+      'sub_categories': selectedSubCatList.isNotEmpty
+          ? selectedSubCatList.map((e) => e['id']).join(',')
+          : '',
       'experience': expController.text.toString(),
       'kodago_card_url': kodagoCardController.text.toString(),
       'about': aboutUsController.text.toString(),
       'device_token': prefs.getString('fcmToken').toString(),
     });
-
-
+    print({
+      'name': fullNameController.text.toString(),
+      'mobile': numberController.text.toString(),
+      'email': emailController.text.toString(),
+      'address': addressString.toString(),
+      'city': cityString.toString(),
+      'state': stateString.toString(),
+      'lat': latString.toString(),
+      'lng': lngString.toString(),
+      'category_id': categoryId.toString(),
+      'sub_categories': selectedSubCatList.isNotEmpty
+          ? selectedSubCatList.map((e) => e['id']).join(',')
+          : '',
+      'experience': expController.text.toString(),
+      'kodago_card_url': kodagoCardController.text.toString(),
+      'about': aboutUsController.text.toString(),
+      'device_token': prefs.getString('fcmToken').toString(),
+    });
     if (imgUrl.value != "") {
-      final file = await http.MultipartFile.fromPath('profile_picture', imgUrl.value);
+      final file =
+          await http.MultipartFile.fromPath('profile_picture', imgUrl.value);
       request.files.add(file);
     } else {}
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
+    print("rese...${response.request}");
     if (response.statusCode == 200) {
       Navigator.of(context).pop();
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
-        Get.toNamed(AppRoutes.otpScreen,arguments:["register",numberController.text.toString(),] );
+        Get.toNamed(AppRoutes.otpScreen, arguments: [
+          "register",
+          numberController.text.toString(),
+        ]);
         // formKey.currentState?.reset();
-      /*  fullNameController.text = "";
+        /*  fullNameController.text = "";
         emailController.text = "";
         numberController.text = "";
         resetValues();
         checkBoxValue.value=false;*/
-      }
-      else
-      {
+      } else {
         showErrorMessageDialog(context, result["message"].toString());
       }
     }
   }
 
-
   getCategoryApiFunction() async {
-
-    final response = await ApiConstants.get(url: ApiUrls.expertCategoriesApiUrl);
+    final response =
+        await ApiConstants.get(url: ApiUrls.expertCategoriesApiUrl);
     if (response["success"] == true) {
-
       if (response['data'] != null) {
-
         allCategoryList.value = response['data'];
         //showToast("Data Load Successfully");
-      }
-      else
-        {
-
-        }
-    }
-    else
-      {
-
-      }
+      } else {}
+    } else {}
     //showToast(response["message"]);
   }
-  getSubCategoryApiFunction(BuildContext context,id) async {
+
+  getSubCategoryApiFunction(BuildContext context, id) async {
     showCircleProgressDialog(context);
-    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.expertSubCategoriesApiUrl));
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(ApiUrls.expertSubCategoriesApiUrl));
     request.fields.addAll({
       'category': id,
     });
@@ -335,12 +345,9 @@ class ExpertRegistrationController extends GetxController {
       if (result["success"] == true) {
         subCatModel.value = ExpertSubCategoryModel.fromJson(result);
         // subCategoryList.value = result['data'];
-      }
-      else
-      {
+      } else {
         showErrorMessageDialog(context, result["message"].toString());
       }
     }
   }
-
 }

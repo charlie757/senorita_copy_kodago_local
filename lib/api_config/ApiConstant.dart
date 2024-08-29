@@ -23,9 +23,11 @@ class ApiConstants {
         Uri.parse(url),
       );
       request.fields.addAll(body);
+      print(body);
       var streamedResponse = await request.send();
       var response = await http.Response.fromStream(streamedResponse);
       if (kDebugMode) {}
+      print(response.request);
       log(response.body);
       final dataAll = json.decode(response.body);
       if (response.statusCode == 200) {
@@ -91,8 +93,7 @@ class ApiConstants {
       final dataAll = json.decode(response.body);
       if (response.statusCode == 200) {
         return dataAll;
-      }
-      else {
+      } else {
         if (dataAll['message'] == 'Fail to authenticate token.') {
           prefs.clear();
           Get.offAllNamed(AppRoutes.loginScreen);

@@ -174,7 +174,7 @@ class OffersScreen extends GetView<OffersController> {
                                           });
                                         }),
                                   )
-                                : noDataFound(title: 'No Offers Available'))),
+                                : noDataFound())),
                   ),
                   controller.isLoadMoreRunning.value == true
                       ? const Padding(

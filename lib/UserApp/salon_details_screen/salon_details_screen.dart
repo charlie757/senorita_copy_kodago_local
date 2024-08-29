@@ -3,7 +3,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:senorita/helper/custombtn.dart';
 import 'package:senorita/utils/extension.dart';
 import 'package:senorita/utils/screensize.dart';
 import 'package:senorita/utils/time_format.dart';
@@ -13,12 +12,10 @@ import '../../ScreenRoutes/routes.dart';
 import '../../api_config/Api_Url.dart';
 import '../../helper/appimage.dart';
 import '../../helper/getText.dart';
-import '../../helper/getText.dart';
 import '../../utils/color_constant.dart';
 import '../../utils/map_utils.dart';
 import '../../utils/stringConstants.dart';
 import '../../utils/toast.dart';
-import '../../widget/no-data_found_image.dart';
 import 'ImgView.dart';
 import 'controller/salon_details_controller.dart';
 
@@ -800,7 +797,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                     })
                 : Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: noDataFound(title: 'No Menus'),
+                    child: noDataFound(),
                   ))
             : controller.selectedTabValue == 2
                 ? Padding(
@@ -1007,7 +1004,7 @@ class SalonDetailScreen extends GetView<SalonDetailController> {
                 : Obx(() => controller.photosList.isEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(top: 30),
-                        child: noDataFound(title: "No Photos"),
+                        child: noDataFound(),
                       )
                     : GridView.builder(
                         padding: EdgeInsets.zero,

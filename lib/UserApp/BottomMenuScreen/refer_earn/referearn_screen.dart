@@ -75,24 +75,30 @@ class ReferEarnScreen extends GetView<ReferEarnController> {
                     Flexible(
                       child: Text(
                           Get.find<ProfileController>().model != null &&
-                              Get.find<ProfileController>()
+                                  Get.find<ProfileController>()
+                                          .model
+                                          .value
+                                          .data !=
+                                      null &&
+                                  Get.find<ProfileController>()
+                                          .model
+                                          .value
+                                          .data!
+                                          .referralCode !=
+                                      null
+                              ? Get.find<ProfileController>()
                                   .model
                                   .value
-                                  .data !=
-                                  null
-                              && Get.find<ProfileController>()
-                              .model
-                              .value
-                              .data!
-                              .referralCode!=null? Get.find<ProfileController>().model.value.data!.referralCode
+                                  .data!
+                                  .referralCode
                               : "",
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style:const TextStyle(
-                          fontSize: 16,
-                          fontFamily: poppinsRegular,
-                          color: const Color(0xff4F4F52),
-                          fontWeight: FontWeight.w400)),
+                          style: const TextStyle(
+                              fontSize: 16,
+                              fontFamily: poppinsRegular,
+                              color: const Color(0xff4F4F52),
+                              fontWeight: FontWeight.w400)),
                     ),
                     ScreenSize.width(5),
                     GestureDetector(
@@ -130,8 +136,8 @@ class ReferEarnScreen extends GetView<ReferEarnController> {
           GestureDetector(
             onTap: () {
               Share.share(
-                  'Download only using my referral link to get coins\n ${Get.find<ProfileController>().model.value.data!.referralCode}\n\n https://play.google.com/store/apps/details?id=com.app.kodagobusiness&pcampaignid=web_share',
-                  subject: 'Senorita');
+                  'Download only using my referral link to get coins\n ${Get.find<ProfileController>().model.value.data!.referralCode}\n\n https://play.google.com/store/apps/details?id=com.app.kodagolocal',
+                  subject: 'Kodago Local');
             },
             child: Container(
               height: 48,

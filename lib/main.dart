@@ -10,7 +10,6 @@ import 'package:senorita/utils/theme.dart';
 import 'package:senorita/utils/utils.dart';
 import 'ScreenRoutes/apppages.dart';
 import 'ScreenRoutes/routes.dart';
-import 'api_config/dependency_injection.dart';
 Future<void> backgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }

@@ -165,7 +165,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                     }),
                               ),
                             )
-                          : noDataFound(title: 'No Business Available')),
+                          : noDataFound()),
                 ),
               ),
               const SizedBox(

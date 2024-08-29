@@ -13,7 +13,6 @@ import 'package:senorita/widget/no_data_found.dart';
 import '../../../helper/appimage.dart';
 import '../../../utils/screensize.dart';
 import '../../../utils/time_format.dart';
-import '../../../widget/no-data_found_image.dart';
 
 class SpecialOfferScreen extends GetView<SpecialOfferController> {
   @override
@@ -25,7 +24,7 @@ class SpecialOfferScreen extends GetView<SpecialOfferController> {
                   controller.specialOfferModel.value.offersList != null &&
                   controller.specialOfferModel.value.offersList!.isNotEmpty
               ? specialOfferWidget()
-              : noDataFound(title: 'No Offers Available'))),
+              : noDataFound())),
     );
   }
 

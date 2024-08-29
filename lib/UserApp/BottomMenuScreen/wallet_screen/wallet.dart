@@ -65,7 +65,7 @@ class Wallet extends GetWidget<WalletController> {
                                 size: 13,
                                 fontFamily: interMedium,
                                 letterSpacing: 0.8,
-                                color: ColorConstant.blackColor,
+                                color: ColorConstant.white,
                                 fontWeight: FontWeight.w500),
                             const SizedBox(
                               height: 4,
@@ -84,7 +84,7 @@ class Wallet extends GetWidget<WalletController> {
                                         : "0",
                                     size: 22,
                                     fontFamily: interSemiBold,
-                                    color: ColorConstant.blackColor,
+                                    color: ColorConstant.white,
                                     fontWeight: FontWeight.w700),
                               ),
                             ),
@@ -162,7 +162,7 @@ class Wallet extends GetWidget<WalletController> {
                           : Container(
                               height: 200,
                               alignment: Alignment.center,
-                              child: noDataFound(title: "No Transcations")),
+                              child: noDataFound()),
                     ),
                   ],
                 ),
