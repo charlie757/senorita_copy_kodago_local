@@ -187,6 +187,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                 textInputType: TextInputType.number,
                                 inputFormatters: [
                                   new LengthLimitingTextInputFormatter(10),
+                                  FilteringTextInputFormatter.digitsOnly
                                 ],
                                 controller: controller.numberController,
                                 validator: (value) {
@@ -224,110 +225,167 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                             SizedBox(height: 10),
 
                             ///Current Location Data Widget
-                            Obx(
-                              () => Padding(
+                            Padding(
                                 padding:
                                     const EdgeInsets.only(left: 2, right: 2),
-                                child: GestureDetector(
+                                child: CustomTextField(
+                                  isReadOnly: true,
+                                  hintText: '',
+                                  labelText: 'Select Location',
+                                  controller: controller.addressController,
+                                  suffix: const Icon(
+                                      size: 20,
+                                      color: ColorConstant.blackLight,
+                                      Icons.my_location),
                                   onTap: () {
                                     controller.getUserLocation();
-                                    /*  if (controller.latString.value != "null" || controller.lngString.value != "null") {
-                                      Get.toNamed(AppRoutes.googleMap,arguments: [
-                                        controller.latDouble,
-                                        controller.lngDouble,
-                                        controller.addressString.value.toString()]);
-                                    } else
-                                      Get.toNamed(AppRoutes.googleMap,arguments: [
-                                        null,null,null]);
-                                    }*/
                                   },
-                                  child: Container(
-                                    height: 50,
-                                    padding: EdgeInsets.only(top: 5, bottom: 5),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(
-                                        color: ColorConstant.addMoney,
-                                      ),
-                                    ),
-                                    child: /* Row(
-                                      children: [
-                                        Expanded(
-                                          flex: 4,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 15, top: 10, bottom: 10),
-                                            child: getText(
-                                                title: controller.addressString.value ==
-                                                        ""
-                                                    ? "Select Location"
-                                                    : controller
-                                                        .addressString.value,
-                                                textAlign: TextAlign.start,
-                                                size: 15,
-                                                fontFamily: interRegular,
-                                                color: ColorConstant.black2,
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Expanded(
-                                            child: Icon(
-                                                size: 20,
-                                                color: ColorConstant.blackLight,
-                                                Icons.my_location))
-                                      ],
-                                    ),*/
-                                        Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 10,
-                                          right: 10,
-                                          top: 0,
-                                          bottom: 3),
-                                      child: Row(
-                                        children: [
-                                          /*Container(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 15, top: 10, bottom: 10),
-                        child: getText(
-                            title: controller.addressString.value == ""
-                                  ? "Select Location"
-                                  : controller.addressString.value,
-                            textAlign: TextAlign.start,
-                            size: 15,
-                            fontFamily: interRegular,
-                            color: ColorConstant.black2,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),*/
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width /
-                                                1.4,
-                                            child: Text(
-                                              controller.addressString.value ==
-                                                      ""
-                                                  ? "Select Location"
-                                                  : controller
-                                                      .addressString.value,
-                                              style: TextStyle(
-                                                  fontSize: 13,
-                                                  fontFamily: interRegular,
-                                                  color:
-                                                      ColorConstant.qrViewText,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
-                                          ),
-                                          Spacer(),
-                                          Icon(
-                                              size: 20,
-                                              color: ColorConstant.blackLight,
-                                              Icons.my_location)
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Enter your address';
+                                    }
+                                    return null;
+                                  },
+                                )
+
+                                //              GestureDetector(
+                                //               onTap: () {
+                                //                 controller.getUserLocation();
+                                //                 /*  if (controller.latString.value != "null" || controller.lngString.value != "null") {
+                                //                   Get.toNamed(AppRoutes.googleMap,arguments: [
+                                //                     controller.latDouble,
+                                //                     controller.lngDouble,
+                                //                     controller.addressString.value.toString()]);
+                                //                 } else
+                                //                   Get.toNamed(AppRoutes.googleMap,arguments: [
+                                //                     null,null,null]);
+                                //                 }*/
+                                //               },
+                                //               child: Container(
+                                //                 height: 50,
+                                //                 padding: const EdgeInsets.only(
+                                //                     top: 5, bottom: 5),
+                                //                 decoration: BoxDecoration(
+                                //                   borderRadius: BorderRadius.circular(10),
+                                //                   border: Border.all(
+                                //                     color: ColorConstant.addMoney,
+                                //                   ),
+                                //                 ),
+                                //                 child: /* Row(
+                                //                   children: [
+                                //                     Expanded(
+                                //                       flex: 4,
+                                //                       child: Padding(
+                                //                         padding: EdgeInsets.only(
+                                //                             left: 15, top: 10, bottom: 10),
+                                //                         child: getText(
+                                //                             title: controller.addressString.value ==
+                                //                                     ""
+                                //                                 ? "Select Location"
+                                //                                 : controller
+                                //                                     .addressString.value,
+                                //                             textAlign: TextAlign.start,
+                                //                             size: 15,
+                                //                             fontFamily: interRegular,
+                                //                             color: ColorConstant.black2,
+                                //                             fontWeight: FontWeight.w500),
+                                //                       ),
+                                //                     ),
+                                //                     Expanded(
+                                //                         child: Icon(
+                                //                             size: 20,
+                                //                             color: ColorConstant.blackLight,
+                                //                             Icons.my_location))
+                                //                   ],
+                                //                 ),*/
+                                //                     Padding(
+                                //                   padding: EdgeInsets.only(
+                                //                       left: 10,
+                                //                       right: 10,
+                                //                       top: 0,
+                                //                       bottom: 3),
+                                //                   child: Row(
+                                //                     children: [
+                                //                       /*Container(
+                                //   child: Padding(
+                                //     padding: EdgeInsets.only(left: 15, top: 10, bottom: 10),
+                                //     child: getText(
+                                //         title: controller.addressString.value == ""
+                                //               ? "Select Location"
+                                //               : controller.addressString.value,
+                                //         textAlign: TextAlign.start,
+                                //         size: 15,
+                                //         fontFamily: interRegular,
+                                //         color: ColorConstant.black2,
+                                //         fontWeight: FontWeight.w500),
+                                //   ),
+                                // ),*/
+                                //                       SizedBox(
+                                //                         width: MediaQuery.of(context)
+                                //                                 .size
+                                //                                 .width /
+                                //                             1.4,
+                                //                         child: Text(
+                                //                           controller.addressString.value ==
+                                //                                   ""
+                                //                               ? "Select Location"
+                                //                               : controller
+                                //                                   .addressString.value,
+                                //                           style: TextStyle(
+                                //                               fontSize: 13,
+                                //                               fontFamily: interRegular,
+                                //                               color:
+                                //                                   ColorConstant.qrViewText,
+                                //                               fontWeight: FontWeight.w500),
+                                //                         ),
+                                //                       ),
+                                //                       Spacer(),
+                                //                       Icon(
+                                //                           size: 20,
+                                //                           color: ColorConstant.blackLight,
+                                //                           Icons.my_location)
+                                //                     ],
+                                //                   ),
+                                //                 ),
+                                //               ),
+                                //             ),
+
                                 ),
+
+                            SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: CustomTextField(
+                                hintText: "",
+                                labelText: city,
+                                auto: AutovalidateMode.onUserInteraction,
+                                textInputAction: TextInputAction.next,
+                                isReadOnly: true,
+                                controller: controller.cityController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter your city';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding: const EdgeInsets.all(3.0),
+                              child: CustomTextField(
+                                hintText: "",
+                                isReadOnly: true,
+                                labelText: state,
+                                auto: AutovalidateMode.onUserInteraction,
+                                textInputAction: TextInputAction.next,
+                                controller: controller.stateController,
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Enter your state';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                             SizedBox(height: 10),
@@ -644,7 +702,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                 hintText: "",
                                 labelText: registerAboutUs,
                                 auto: AutovalidateMode.onUserInteraction,
-                                textInputAction: TextInputAction.next,
+                                textInputAction: TextInputAction.done,
                                 controller: controller.aboutUsController,
                                 validator: (value) {
                                   if (value.toString().isEmpty) {
@@ -743,13 +801,14 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                           onTap: () {
                             if (controller.expertRegistration.currentState!
                                 .validate()) {
-                              if (controller.addressString.value == "") {
-                                showToast("Select Address");
-                              } else if (controller.checkBoxValue.value) {
-                                controller.submitProfileImageApi(context);
-                              } else {
-                                showToast(signUpCheckBoxValidation);
-                              }
+                              controller.submitProfileImageApi(context);
+                              // if (controller.addressString.value == "") {
+                              //   showToast("Select Address");
+                              // } else if (controller.checkBoxValue.value) {
+                              //   controller.submitProfileImageApi(context);
+                              // } else {
+                              //   showToast(signUpCheckBoxValidation);
+                              // }
                             } else {}
 
                             /*controller.isLoading.value
@@ -1112,7 +1171,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(
-                                          left: 15, right: 10),
+                                          left: 15, right: 10, top: 10),
                                       child: Container(
                                         width:
                                             MediaQuery.of(context).size.width,
@@ -1135,8 +1194,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
+                        InkWell(
                           onTap: () {
                             Navigator.pop(context);
                           },
@@ -1150,8 +1208,7 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                         const SizedBox(
                           width: 25,
                         ),
-                        GestureDetector(
-                          behavior: HitTestBehavior.opaque,
+                        InkWell(
                           onTap: () {
                             print(controller
                                 .subCatModel.value.selectedList.length);

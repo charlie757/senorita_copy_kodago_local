@@ -180,6 +180,7 @@ class HomeScreen extends GetView<DashboardController> {
                             return Column(
                               children: [
                                 salonWidget(context, model, 'home', () {
+                                  print(model.user!.id.toString());
                                   Get.toNamed(AppRoutes.salonDetailsScreen,
                                       arguments: [
                                         model.user!.id.toString(),
@@ -408,7 +409,8 @@ class HomeScreen extends GetView<DashboardController> {
                 onTap: () {
                   Get.toNamed(AppRoutes.notificationScreen, parameters: {
                     'userId': controller.profileController.model.value.data!.id
-                        .toString()
+                        .toString(),
+                    'route': 'user'
                   });
                 },
                 child: Center(

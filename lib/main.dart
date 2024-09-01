@@ -10,9 +10,11 @@ import 'package:senorita/utils/theme.dart';
 import 'package:senorita/utils/utils.dart';
 import 'ScreenRoutes/apppages.dart';
 import 'ScreenRoutes/routes.dart';
+
 Future<void> backgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
 }
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -30,8 +32,6 @@ void main() async {
   //DependencyInjection.init();
   configLoading();
 }
-
-
 
 getToken() async {
   FirebaseMessaging.instance.requestPermission();
@@ -58,19 +58,22 @@ class _MyAppState extends State<MyApp> {
     notificationService.initialize();
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(FocusNode());
+        Utils.hideKeyboard();
       },
-      child: GetMaterialApp(
-        title: 'Kodago Business',
-        navigatorKey: navigatorKey,
-        theme: lightThemeData(context),
-        scrollBehavior: const ScrollBehavior(),
-        darkTheme: darkThemeData(context),
-        themeMode: ThemeMode.light,
-        debugShowCheckedModeBanner: false,
-        getPages: AppPages.pages,
-        initialRoute: AppRoutes.splash,
-        builder: EasyLoading.init(),
+      child: ScrollConfiguration(
+        behavior: CustomBehavior(),
+        child: GetMaterialApp(
+          title: 'Kodago Local',
+          navigatorKey: navigatorKey,
+          theme: lightThemeData(context),
+          // scrollBehavior: const ScrollBehavior(),
+          darkTheme: darkThemeData(context),
+          themeMode: ThemeMode.light,
+          debugShowCheckedModeBanner: false,
+          getPages: AppPages.pages,
+          initialRoute: AppRoutes.splash,
+          builder: EasyLoading.init(),
+        ),
       ),
     );
   }
@@ -90,4 +93,12 @@ void configLoading() {
     ..maskColor = Colors.blue.withOpacity(0.5)
     ..userInteractions = true
     ..dismissOnTap = false;
+}
+
+class CustomBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+      BuildContext context, Widget child, ScrollableDetails details) {
+    return child;
+  }
 }

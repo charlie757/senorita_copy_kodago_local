@@ -23,7 +23,8 @@ const String poppinsRegular = 'poppinsRegular';
 
 // type Screen
 const String typeTitle = "Choose your role";
-const String typeSubTitle = "Select User if you want to teach or\n Expert if you want to learn";
+const String typeSubTitle =
+    "Select User if you want to teach or\n Expert if you want to learn";
 const String userTitle = "User";
 const String expertTitle = "Expert";
 const String signInTitle = "Sign In";
@@ -31,12 +32,9 @@ const String createAccountTitle = "Create Account";
 const String selectRole = "Choose your role";
 const String selectRoleButton = "Get started";
 
-
-const String textEnterAmountMoney= "Enter Coins";
-const String enterAmountValidation= "Please Enter Some Coins";
-const String enterValidAmountValidation= "Please Enter Valid Coins";
-
-
+const String textEnterAmountMoney = "Enter Coins";
+const String enterAmountValidation = "Please Enter Some Coins";
+const String enterValidAmountValidation = "Please Enter Valid Coins";
 
 // Login Screen
 const String userLoginTitle = "Welcome back";
@@ -51,17 +49,6 @@ const String or = "or";
 const String termsText1 = "By continuing, you agree to our";
 const String termsText2 = "Terms of Service";
 const String termsText3 = "Privacy Policy";
-
-
-
-
-
-
-
-
-
-
-
 
 const String loginEnterEmailValidation = "Enter email Address";
 const String loginEnterValidEmailValidation = "Enter email Address";
@@ -78,10 +65,13 @@ const String forgotPasswordButton = "Send";
 
 // RegisterAccount Screen
 const String registerAccountTitle = "Create Account";
-const String registerAccountSubTitle = "Create a account by filling in info below.";
+const String registerAccountSubTitle =
+    "Create a account by filling in info below.";
 const String registerFullName = "Full Name";
 const String referralText = "Referral Code";
 const String registerMobileNumber = "Mobile Number";
+const String city = "City";
+const String state = "State";
 const String registerEmailAddress = "Email Address";
 const String registerPassword = "Password";
 const String registerConfirmPassword = "Confirm Password";
@@ -90,8 +80,9 @@ const String registerAlreadyAccount = "Already have an account?";
 const String registerLogin = "Login";
 const String loginAgree = 'I agree to the ';
 const String loginTerms = 'terms & conditions';
-const String createBtn= 'Get started';
-const String signUpCheckBoxValidation = "Please agree to the terms & conditions and privacy policy";
+const String createBtn = 'Get started';
+const String signUpCheckBoxValidation =
+    "Please agree to the terms & conditions and privacy policy";
 const String registerCountry = 'Country';
 const String registerState = 'State';
 const String registerCity = 'City';
@@ -143,13 +134,3 @@ const String changePasswordConform = "Confirm Password";
 
 // constants keys for preference
 const String authToken = 'token';
-
-
-
-
-
-
-
-
-
-

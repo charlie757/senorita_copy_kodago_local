@@ -576,7 +576,10 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                             child: menuUi(context, index)),
                       );
                     })
-                : noDataFound())
+                : Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: noDataFound(),
+                  ))
             : controller.selectedTabValue == 2
                 ? Padding(
                     padding: const EdgeInsets.only(left: 0, right: 0),
@@ -771,12 +774,18 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                                   ),
                                 ],
                               )
-                            : noDataFound()
+                            : Padding(
+                                padding: const EdgeInsets.only(top: 30),
+                                child: noDataFound(title: "No Reviews"),
+                              )
                       ],
                     ),
                   )
                 : Obx(() => controller.photosList.isEmpty
-                    ? noDataFound()
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: noDataFound(),
+                      )
                     : GridView.builder(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
@@ -1292,7 +1301,8 @@ class ExpertHomeScreen extends GetView<ExpertHomeController> {
                               .data!
                               .user!
                               .id
-                              .toString()
+                              .toString(),
+                          'route': "expert"
                         });
                       },
                       child: Center(

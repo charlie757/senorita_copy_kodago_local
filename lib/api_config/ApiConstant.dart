@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:http/http.dart' as http;
+import 'package:senorita/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../ScreenRoutes/routes.dart';
 import '../utils/stringConstants.dart';
@@ -28,13 +29,15 @@ class ApiConstants {
       var response = await http.Response.fromStream(streamedResponse);
       if (kDebugMode) {}
       print(response.request);
+      print(response.statusCode);
       log(response.body);
       final dataAll = json.decode(response.body);
       if (response.statusCode == 200) {
         return dataAll;
       } else {
         if (dataAll['message'] == 'Fail to authenticate token.') {}
-        return dataAll;
+        errorSnackBar(dataAll['error'], navigatorKey.currentContext);
+        return null;
       }
     } catch (e) {
       if (e is SocketException) {
@@ -61,6 +64,7 @@ class ApiConstants {
       if (response.statusCode == 200) {
         return dataAll;
       } else {
+        errorSnackBar(dataAll['error'], navigatorKey.currentContext);
         return null;
       }
     } catch (e) {
@@ -103,7 +107,7 @@ class ApiConstants {
           prefs.clear();
           Get.offAllNamed(AppRoutes.loginScreen);
         }
-
+        errorSnackBar(dataAll['error'], navigatorKey.currentContext);
         return null;
       }
     } catch (e) {

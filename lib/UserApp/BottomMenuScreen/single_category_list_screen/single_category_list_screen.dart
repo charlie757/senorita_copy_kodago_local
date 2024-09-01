@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/home_screen/shimmer/all_expert_shimmer.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/single_category_list_screen/controller/single_category_list_controller.dart';
+import 'package:senorita/helper/getText.dart';
 import 'package:senorita/utils/screensize.dart';
+import 'package:senorita/utils/stringConstants.dart';
 import 'package:senorita/widget/no_data_found.dart';
 import 'package:senorita/widget/view_salon_widget.dart';
 import '../../../ScreenRoutes/routes.dart';
@@ -39,6 +41,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
             return true;
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
@@ -113,7 +116,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                           AppImages.filterIcon,
                           height: 20,
                           width: 20,
-                          color: Color(0xff767676),
+                          color: const Color(0xff767676),
                         ),
                       ),
                     )
@@ -121,6 +124,69 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                 ),
               ),
               ScreenSize.height(5),
+              Obx(
+                () => SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.only(
+                      left: 15, right: 15, top: 8, bottom: 6),
+                  child: Row(
+                    children: [
+                      controller.price.value.isNotEmpty
+                          ? filtersTypeswidget('Price', () {
+                              controller.price.value = '';
+                              controller.savedFilterValues['price'] = '';
+                              controller.allCategoryApiFunction();
+                            })
+                          : Container(),
+                      controller.discount.value.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                left: 15,
+                              ),
+                              child: filtersTypeswidget('Discount', () {
+                                controller.discount.value = '';
+                                controller.savedFilterValues['discount'] = '';
+                                controller.allCategoryApiFunction();
+                              }),
+                            )
+                          : Container(),
+                      controller.rating.value.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: filtersTypeswidget('Rating', () {
+                                controller.rating.value = '';
+                                controller.savedFilterValues['rating'] = '';
+                                controller.savedFilterValues['topRated'] = '';
+                                controller.allCategoryApiFunction();
+                              }),
+                            )
+                          : Container(),
+                      controller.distance.value.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(
+                                left: 15,
+                              ),
+                              child: filtersTypeswidget('Distance', () {
+                                controller.distance.value = '';
+                                controller.savedFilterValues['distance'] = '';
+                                controller.allCategoryApiFunction();
+                              }),
+                            )
+                          : Container(),
+                      controller.newArrivals.value.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 15),
+                              child: filtersTypeswidget('New Arrivals', () {
+                                controller.newArrivals.value = '';
+                                controller.savedFilterValues['arrivals'] = '';
+                                controller.allCategoryApiFunction();
+                              }),
+                            )
+                          : Container(),
+                    ],
+                  ),
+                ),
+              ),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(),
@@ -183,6 +249,34 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                   : Container(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  filtersTypeswidget(String title, Function() onTap) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+          color: ColorConstant.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: ColorConstant.borderColor)),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          children: [
+            getText(
+                title: title,
+                size: 15,
+                fontFamily: interRegular,
+                color: ColorConstant.black2,
+                fontWeight: FontWeight.w400),
+            ScreenSize.width(8),
+            const Icon(
+              Icons.close,
+              size: 17,
+            )
+          ],
         ),
       ),
     );

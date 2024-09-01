@@ -17,20 +17,20 @@ import '../../../utils/color_constant.dart';
 import '../../../utils/stringConstants.dart';
 import '../../../utils/showcircledialogbox.dart';
 import '../../../utils/size_config.dart';
-import '../../../utils/toast.dart';
 import '../../../widget/error_box.dart';
-import '../../../widget/success_box.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
 import '../../BottomMenuScreen/specialoffers/model/expert_subcategory_model.dart';
-import '../../searchLocationMap/searchLocationScreen.dart';
 import '../googleMap/controller/googleMapController.dart';
 
 class ExpertRegistrationController extends GetxController {
   final fullNameController = TextEditingController();
   final numberController = TextEditingController();
   final emailController = TextEditingController();
+  final addressController = TextEditingController();
+  final cityController = TextEditingController();
+  final stateController = TextEditingController();
   final expController = TextEditingController();
   final aboutUsController = TextEditingController();
   final kodagoCardController = TextEditingController();
@@ -47,9 +47,9 @@ class ExpertRegistrationController extends GetxController {
   var email = "";
 
   ///Address
-  final addressString = "".obs;
-  final cityString = "".obs;
-  final stateString = "".obs;
+  // final addressString = "".obs;
+  // final cityString = "".obs;
+  // final stateString = "".obs;
   final latString = "".obs;
   final lngString = "".obs;
 
@@ -232,7 +232,7 @@ class ExpertRegistrationController extends GetxController {
       // initialposition = LatLng(currentLat.value,currentLong.value);
 
       // subLocality.value = placemark[0].subLocality.toString();
-      addressString.value = placemark[0].street.toString() +
+      addressController.text = placemark[0].street.toString() +
           "," +
           placemark[0].thoroughfare.toString() +
           "," +
@@ -243,8 +243,8 @@ class ExpertRegistrationController extends GetxController {
           placemark[0].administrativeArea.toString() +
           "," +
           placemark[0].country.toString();
-      cityString.value = placemark[0].locality.toString();
-      stateString.value = placemark[0].administrativeArea.toString();
+      cityController.text = placemark[0].locality.toString();
+      stateController.text = placemark[0].administrativeArea.toString();
       EasyLoading.dismiss();
     }
   }
@@ -258,9 +258,9 @@ class ExpertRegistrationController extends GetxController {
       'name': fullNameController.text.toString(),
       'mobile': numberController.text.toString(),
       'email': emailController.text.toString(),
-      'address': addressString.toString(),
-      'city': cityString.toString(),
-      'state': stateString.toString(),
+      'address': addressController.text,
+      'city': cityController.text,
+      'state': stateController.text,
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
@@ -276,9 +276,9 @@ class ExpertRegistrationController extends GetxController {
       'name': fullNameController.text.toString(),
       'mobile': numberController.text.toString(),
       'email': emailController.text.toString(),
-      'address': addressString.toString(),
-      'city': cityString.toString(),
-      'state': stateString.toString(),
+      'address': addressController.text,
+      'city': cityController.text,
+      'state': stateController.text,
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),

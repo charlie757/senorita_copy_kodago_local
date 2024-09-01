@@ -41,9 +41,9 @@ class SelectCreateAccountScreen extends GetView<CreateAccountTypeController> {
                       letterSpacing: 0.6,
                       color: ColorConstant.blackColor,
                       fontWeight: FontWeight.w500),
-                 // const SizedBox(
-                 //    height: 10,
-                 //  ),
+                  // const SizedBox(
+                  //    height: 10,
+                  //  ),
                   // Container(
                   //   width: MediaQuery.of(context).size.width / 1.3,
                   //   child: RichText(
@@ -71,7 +71,7 @@ class SelectCreateAccountScreen extends GetView<CreateAccountTypeController> {
                   //     ),
                   //   ),
                   // ),
-                 const SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
                   Padding(

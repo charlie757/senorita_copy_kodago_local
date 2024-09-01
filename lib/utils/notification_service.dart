@@ -3,12 +3,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   print("Handling a background message: ${message.messageId}");
 }
-class NotificationService {
 
+class NotificationService {
   FirebaseMessaging fcm = FirebaseMessaging.instance;
   AndroidNotificationChannel channel = const AndroidNotificationChannel(
       'high_importance_channel', //id
@@ -20,8 +21,7 @@ class NotificationService {
       enableVibration: true);
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
-
+      FlutterLocalNotificationsPlugin();
 
   Future initialize() async {
     await Firebase.initializeApp();
@@ -30,12 +30,12 @@ class NotificationService {
     );
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await FirebaseMessaging.instance
         .setForegroundNotificationPresentationOptions(
-        alert: true, badge: true, sound: true);
+            alert: true, badge: true, sound: true);
     configLocalNotification();
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -68,7 +68,7 @@ class NotificationService {
                     icon: '@mipmap/ic_launcher',
                     styleInformation: const BigTextStyleInformation(''),
                     channelAction:
-                    AndroidNotificationChannelAction.createIfNotExists)));
+                        AndroidNotificationChannelAction.createIfNotExists)));
         // Get.toNamed(AppRoutes.notification);
       }
       if (appleNotification != null) {
@@ -79,11 +79,11 @@ class NotificationService {
             const NotificationDetails(
                 iOS: DarwinNotificationDetails(
                     presentAlert: true, presentSound: true, presentBadge: true)
-              // iOS: DarwinInitializationSettings(presentSound: true,
-              //   presentAlert: true,
-              //   presentBadge: true,
-              // )
-            ));
+                // iOS: DarwinInitializationSettings(presentSound: true,
+                //   presentAlert: true,
+                //   presentBadge: true,
+                // )
+                ));
       }
     });
     await getToken();
@@ -91,18 +91,18 @@ class NotificationService {
 
   void configLocalNotification() {
     var initializationSettingsAndroid =
-    const AndroidInitializationSettings('@mipmap/ic_launcher');
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = const DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-   onDidReceiveNotificationResponse: (details) {
-  print("paylod...${details.payload}");
-  print("paylod...${details.actionId}");
-  print("paylod...${details.id}");
-  print("paylod...${details.input}");
-  },
+      onDidReceiveNotificationResponse: (details) {
+        print("paylod...${details.payload}");
+        print("paylod...${details.actionId}");
+        print("paylod...${details.id}");
+        print("paylod...${details.input}");
+      },
       onDidReceiveBackgroundNotificationResponse: (details) {
         print("background....${details.payload}");
       },

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -26,10 +27,13 @@ class ExpertEditProfileController extends GetxController {
   final fullNameController = TextEditingController();
   final numberController = TextEditingController();
   final emailController = TextEditingController();
+  final cityController = TextEditingController();
+  final stateController = TextEditingController();
+
   ///Address
   final addressString = "".obs;
-  final cityString = "".obs;
-  final stateString = "".obs;
+  // final cityString = "".obs;
+  // final stateString = "".obs;
   final latString = "".obs;
   final lngString = "".obs;
 
@@ -43,8 +47,8 @@ class ExpertEditProfileController extends GetxController {
   final aboutUsController = TextEditingController();
 
   var subCatModel = ExpertSubCategoryModel().obs;
- List selectedSubCatList = [].obs;
-  ExpertDashboardController dashboardController=ExpertDashboardController();
+  List selectedSubCatList = [].obs;
+  ExpertDashboardController dashboardController = ExpertDashboardController();
 
   final userFormKey = GlobalKey<FormState>();
   final checkBoxValue = false.obs;
@@ -53,7 +57,7 @@ class ExpertEditProfileController extends GetxController {
   final isLoading = false.obs;
   var mobile = "";
   var email = "";
-  final expertProfileImage="".obs;
+  final expertProfileImage = "".obs;
 
   ///Country data
   // RxInt selectedCountryType = (-1).obs;
@@ -84,68 +88,59 @@ class ExpertEditProfileController extends GetxController {
   final imgFile = Rx<File?>(null);
   final imgUrl = ''.obs;
 
-
   // search
   final isNotMatchCity = false.obs;
   final searchList = [].obs;
   final dropdownDataList = [].obs;
   final allData = [].obs;
   var isChecked = false.obs;
-  String Id="";
-  String expertId="";
+  String Id = "";
+  String expertId = "";
   final oneValue = ''.obs;
 
   ///DropDown
   final countrySharedPrf = ''.obs;
-  String token="";
-
-
+  String token = "";
 
   ///SubCategory data
   RxInt selectedSubCategoryType = (-1).obs;
   final subCategoryString = "".obs;
-  final subCategoryId =  "".obs;
+  final subCategoryId = "".obs;
   final subCategoryList = [].obs;
   final subCategoryIdList = [].obs;
   final subCategoryNameList = [].obs;
 
-
-
   final ne = [].obs;
 
   final subCategoryName = "".obs;
-  ExpertProfileController expertProfileController=ExpertProfileController();
+  ExpertProfileController expertProfileController = ExpertProfileController();
 
-  var latDouble=0.0;
-  var lngDouble=0.0;
+  var latDouble = 0.0;
+  var lngDouble = 0.0;
 
   @override
-  void onInit() async{
+  void onInit() async {
     SizeConfig().init();
-getCategoryApiFunction();
+    getCategoryApiFunction();
     addressString.value = Get.parameters['address'] ?? 'Current Address';
-    cityString.value = Get.parameters['city'].toString() ?? '';
-    stateString.value = Get.parameters['state'].toString() ?? '';
-    latString.value = Get.parameters['currentLat'].toString() ?? '' ;
-    lngString.value = Get.parameters['currentLong'].toString() ?? '' ;
+    // cityString.value = Get.parameters['city'].toString() ?? '';
+    cityController.text = Get.parameters['city'] ?? '';
+    stateController.text = Get.parameters['state'] ?? "";
+    // stateString.value = Get.parameters['state'].toString() ?? '';
+    latString.value = Get.parameters['currentLat'].toString() ?? '';
+    lngString.value = Get.parameters['currentLong'].toString() ?? '';
 
+    //  showToast(addressString.value);
 
-  //  showToast(addressString.value);
-
-    if(latString.value!="null" || lngString.value!="null")
-    {
-      latDouble =double.parse(latString.value);
-      lngDouble =double.parse(lngString.value);
-    }
-    else
-    {
-
-    }
+    if (latString.value != "null" || lngString.value != "null") {
+      latDouble = double.parse(latString.value);
+      lngDouble = double.parse(lngString.value);
+    } else {}
     // getCityApiFunction();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    Id=prefs.getString("id").toString();
-    expertId=prefs.getString("expert_id").toString();
-    token=prefs.getString("token").toString();
+    Id = prefs.getString("id").toString();
+    expertId = prefs.getString("expert_id").toString();
+    token = prefs.getString("token").toString();
     setValues();
     super.onInit();
   }
@@ -159,47 +154,73 @@ getCategoryApiFunction();
   // }
 
   final profileController = Get.put(ExpertProfileController());
-  setValues(){
-    if(profileController.model.value!=null&&profileController.model.value!.data!=null &&profileController.model.value!.data!.user !=null){
-      imgUrl.value= profileController.model.value!.data!.user!.profilePicture??'';
-      fullNameController.text=profileController.model.value!.data!.user!.name??'';
-      numberController.text=profileController.model.value!.data!.user!.mobile??"";
-      emailController.text=profileController.model.value!.data!.user!.email??"";
+  setValues() {
+    if (profileController.model.value != null &&
+        profileController.model.value!.data != null &&
+        profileController.model.value!.data!.user != null) {
+      imgUrl.value =
+          profileController.model.value!.data!.user!.profilePicture ?? '';
+      fullNameController.text =
+          profileController.model.value!.data!.user!.name ?? '';
+      numberController.text =
+          profileController.model.value!.data!.user!.mobile ?? "";
+      emailController.text =
+          profileController.model.value!.data!.user!.email ?? "";
 
-      Get.parameters['address']!=null?
-      addressString.value:addressString.value=profileController.model.value!.data!.user!.address??"";
-      cityString.value=profileController.model.value!.data!.user!.city??"";
-      stateString.value=profileController.model.value!.data!.user!.state??"";
-      latString.value=profileController.model.value!.data!.user!.lat??"";
-      lngString.value=profileController.model.value!.data!.user!.lng??"";
-
+      Get.parameters['address'] != null
+          ? addressString.value
+          : addressString.value =
+              profileController.model.value!.data!.user!.address ?? "";
+      cityController.text =
+          profileController.model.value!.data!.user!.city ?? "";
+      stateController.text =
+          profileController.model.value!.data!.user!.state ?? "";
+      latString.value = profileController.model.value!.data!.user!.lat ?? "";
+      lngString.value = profileController.model.value!.data!.user!.lng ?? "";
     }
-    if(profileController.model!=null&&profileController.model.value.data!=null&&profileController.model.value!.data!.category!=null){
-      categoryString.value= profileController.model.value!.data!.category!.name.toString();
-      selectedCategoryType.value=0;
+    if (profileController.model != null &&
+        profileController.model.value.data != null &&
+        profileController.model.value!.data!.category != null) {
+      categoryString.value =
+          profileController.model.value!.data!.category!.name.toString();
+      selectedCategoryType.value = 0;
       // response['data']['category']!=null?response['data']['category']['id']-1:0;
-      categoryId.value=profileController.model.value!.data!.category!.id.toString();
-      categoryId.value.isNotEmpty?
-      getSubCategoryApiFunction(categoryId.value.toString()):null;
-
+      categoryId.value =
+          profileController.model.value!.data!.category!.id.toString();
+      categoryId.value.isNotEmpty
+          ? getSubCategoryApiFunction(categoryId.value.toString())
+          : null;
     }
-    if(profileController.model!=null&&profileController.model.value.data!=null&&profileController.model.value!.data!.expertSubcats!=null){
-      for (int i = 0; i < profileController.model.value!.data!.expertSubcats!.length; i++) {
+    if (profileController.model != null &&
+        profileController.model.value.data != null &&
+        profileController.model.value!.data!.expertSubcats != null) {
+      for (int i = 0;
+          i < profileController.model.value!.data!.expertSubcats!.length;
+          i++) {
         selectedSubCatList.add({
-          'name':profileController.model.value!.data!.expertSubcats![i].name,
-          'id':profileController.model.value!.data!.expertSubcats![i].subCatId.toString()
+          'name': profileController.model.value!.data!.expertSubcats![i].name,
+          'id': profileController.model.value!.data!.expertSubcats![i].subCatId
+              .toString()
         });
       }
     }
 
-    expController.text= profileController.model!=null&&profileController.model.value!.data!=null? profileController.model.value!.data!.experience.toString():"";
-    kodagoCardController.text=profileController.model!=null&&profileController.model.value!.data!=null&&profileController.model.value!.data!.kodagoCardUrl!=null? profileController.model.value!.data!.kodagoCardUrl.toString():"";
-    aboutUsController.text=profileController.model!=null&&profileController.model.value!.data!=null? profileController.model.value!.data!.about.toString():"";
+    expController.text = profileController.model != null &&
+            profileController.model.value!.data != null
+        ? profileController.model.value!.data!.experience.toString()
+        : "";
+    kodagoCardController.text = profileController.model != null &&
+            profileController.model.value!.data != null &&
+            profileController.model.value!.data!.kodagoCardUrl != null
+        ? profileController.model.value!.data!.kodagoCardUrl.toString()
+        : "";
+    aboutUsController.text = profileController.model != null &&
+            profileController.model.value!.data != null
+        ? profileController.model.value!.data!.about.toString()
+        : "";
   }
 
-
   final picker = ImagePicker();
-
 
   void showImagePicker(BuildContext context) {
     showModalBottomSheet(
@@ -217,11 +238,11 @@ getCategoryApiFunction();
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10))
-                  //set border radius more than 50% of height and width to make circle
-                ),
+                    //set border radius more than 50% of height and width to make circle
+                    ),
                 child: Padding(
                   padding:
-                  const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -283,13 +304,12 @@ getCategoryApiFunction();
     final pickedImage = await ImagePicker().pickImage(source: source);
     if (pickedImage != null) {
       //imgUrl.value = pickedImage.path;
-      imgFile.value=File(pickedImage.path);
+      imgFile.value = File(pickedImage.path);
       print(imgFile);
     } else {
       showToast("Error No image selected");
     }
   }
-
 
   validation() async {
     if (userFormKey.currentState!.validate()) {
@@ -297,27 +317,30 @@ getCategoryApiFunction();
     }
   }
 
-
   submitExpertProfileApi(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(Get.context!);
     isLoading.value = true;
-    var headers = {
-      'Authorization': 'Bearer'+token
-    };
-    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.updateExpertProfileDetail,));
+    var headers = {'Authorization': 'Bearer' + token};
+    var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(
+          ApiUrls.updateExpertProfileDetail,
+        ));
     // var stringSubCategory=subCategoryIdList.join(",");
     request.fields.addAll({
       'name': fullNameController.text.toString(),
       'mobile': numberController.text.toString(),
       'email': emailController.text.toString(),
       'address': addressString.toString(),
-      // 'city': cityString.toString(),
-      // 'state': stateString.toString(),
+      'city': 'Jaipur',
+      'state': 'Rajasthan',
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
-      'sub_categories': selectedSubCatList.isNotEmpty? selectedSubCatList.map((e) => e['id']).join(','):'',
+      'sub_categories': selectedSubCatList.isNotEmpty
+          ? selectedSubCatList.map((e) => e['id']).join(',')
+          : '',
       'experience': expController.text.toString(),
       'kodago_card_url': kodagoCardController.text.toString(),
       'about': aboutUsController.text.toString(),
@@ -328,12 +351,14 @@ getCategoryApiFunction();
       'mobile': numberController.text.toString(),
       'email': emailController.text.toString(),
       'address': addressString.toString(),
-      // 'city': cityString.toString(),
-      // 'state': stateString.toString(),
+      'city': cityController.text,
+      'state': stateController.text,
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
-      'sub_categories': selectedSubCatList.isNotEmpty? selectedSubCatList.map((e) => e['id']).join(','):'',
+      'sub_categories': selectedSubCatList.isNotEmpty
+          ? selectedSubCatList.map((e) => e['id']).join(',')
+          : '',
       'experience': expController.text.toString(),
       'kodago_card_url': kodagoCardController.text.toString(),
       'about': aboutUsController.text.toString(),
@@ -342,43 +367,50 @@ getCategoryApiFunction();
 
     request.headers.addAll(headers);
 
-    if (imgFile.value==null) {
-      
-    }
-    else {
-      final file = await http.MultipartFile.fromPath('profile_picture', imgFile.value!.path);
+    if (imgFile.value == null) {
+    } else {
+      final file = await http.MultipartFile.fromPath(
+          'profile_picture', imgFile.value!.path);
       request.files.add(file);
     }
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
-    print(response.body);
+    log(response.body);
+    print("request...${response.request}");
     Get.back();
     if (response.statusCode == 200) {
       isLoading.value = false;
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
-        Get.back();
-        showToast(result["message"].toString());
+        if (result['check_verify'].toString() == '1') {
+          Get.toNamed(AppRoutes.otpScreen, arguments: [
+            "update",
+            numberController.text.toString(),
+          ]);
+        } else {
+          Get.back();
+          showToast(result["message"].toString());
+        }
         // Get.offAllNamed(AppRoutes.expertDashboardScreen);
-      }
-      else
-      {
+      } else {
         showErrorMessageDialog(context, result["message"].toString());
       }
     }
   }
 
   getCityApiFunction() async {
-    final response = await ApiConstants.get(
-        url: ApiUrls.cityApiUrl + "/" + "all");
+    final response =
+        await ApiConstants.get(url: ApiUrls.cityApiUrl + "/" + "all");
     if (response["success"] == true) {
       if (response['data'] != null) {
         allCityList.value = response['data'];
       }
     }
   }
+
   getCategoryApiFunction() async {
-    final response = await ApiConstants.get(url: ApiUrls.expertCategoriesApiUrl);
+    final response =
+        await ApiConstants.get(url: ApiUrls.expertCategoriesApiUrl);
     if (response["success"] == true) {
       if (response['data'] != null) {
         allCategoryList.value = response['data'];
@@ -386,25 +418,24 @@ getCategoryApiFunction();
     }
     //showToast(response["message"]);
   }
+
   getSubCategoryApiFunction(id) async {
     //showCircleProgressDialog(context);
-    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.expertSubCategoriesApiUrl));
+    var request = http.MultipartRequest(
+        'POST', Uri.parse(ApiUrls.expertSubCategoriesApiUrl));
     request.fields.addAll({
       'category': id,
     });
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     if (response.statusCode == 200) {
-   //   Navigator.of(context).pop();
+      //   Navigator.of(context).pop();
       final result = jsonDecode(response.body) as Map<String, dynamic>;
       if (result["success"] == true) {
         subCatModel.value = ExpertSubCategoryModel.fromJson(result);
         // subCategoryList.value = result['data'];
-
-      }
-      else
-      {
-       // showErrorMessageDialog(result["message"].toString());
+      } else {
+        // showErrorMessageDialog(result["message"].toString());
       }
     }
   }

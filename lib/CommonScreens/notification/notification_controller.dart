@@ -8,31 +8,28 @@ import 'package:senorita/utils/utils.dart';
 import '../../api_config/ApiConstant.dart';
 import '../../api_config/Api_Url.dart';
 
-class NotificationController extends GetxController{
-
+class NotificationController extends GetxController {
   var model = NotificationModel().obs;
-
+  final route = ''.obs;
   @override
   void onInit() {
-    print(Get.parameters['userId']);
-    Future.delayed(Duration.zero,(){
+    route.value = Get.parameters['route'] ?? "";
+    Future.delayed(Duration.zero, () {
       callNotificationApiFunction(Get.parameters['userId'].toString());
     });
     super.onInit();
   }
 
-  callNotificationApiFunction(String id)async{
+  callNotificationApiFunction(String id) async {
     showCircleProgressDialog(navigatorKey.currentContext!);
     print('object');
-    var body = {
-      'user_id':id
-    };
+    var body = {'user_id': id};
     print(body);
-    final response = await ApiConstants.post(url: ApiUrls.notificationUrl,body: body);
+    final response =
+        await ApiConstants.post(url: ApiUrls.notificationUrl, body: body);
     Get.back();
     if (response != null && response['success'] == true) {
       model.value = NotificationModel.fromJson(response);
     }
-
   }
 }

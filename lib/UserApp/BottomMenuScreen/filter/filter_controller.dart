@@ -129,12 +129,13 @@ class FilterController extends GetxController {
                 : '';
         selectedDiscountValue.value = body['discount'];
         selectedSort.value = body['arrivals'].isNotEmpty
-            ? 2
+            ? 1
             : body['topRated'].isNotEmpty
-                ? 1
-                : body['hasOffer'].isNotEmpty
-                    ? 0
-                    : 10;
+                ? 0
+                // : body['hasOffer'].isNotEmpty
+                //     ? 0
+                : 10;
+
         selectedRating.value =
             body['rating'].isNotEmpty ? double.parse(body['rating']) : 0.0;
         currentRangeValues.value =

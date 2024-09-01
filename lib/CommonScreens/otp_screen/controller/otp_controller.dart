@@ -19,22 +19,21 @@ class OtpController extends GetxController {
   final otpFormKey = GlobalKey<FormState>();
   final counter = 0.obs;
   Timer? timer;
-  String refType="";
-  String mobileNumber="";
+  String refType = "";
+  String mobileNumber = "";
   var messageOtpCode = ''.obs;
   @override
   void onInit() async {
     resetValues();
     startTimer();
-    mobileNumber=Get.arguments[1];
-    if(Get.arguments[0]=="login")
-      {
-        refType="login";
-      }
-    else
-      {
-        refType="register";
-      }
+    mobileNumber = Get.arguments[1];
+    if (Get.arguments[0] == "login") {
+      refType = "login";
+    } else if (Get.arguments[0] == "update") {
+      refType = "change_mobile";
+    } else {
+      refType = "register";
+    }
     super.onInit();
   }
 
@@ -45,16 +44,19 @@ class OtpController extends GetxController {
       counter.value > 0 ? counter.value-- : timer.cancel();
     });
   }
+
   @override
   void dispose() {
     SmsAutoFill().unregisterListener();
     timer?.cancel();
     super.dispose();
   }
+
   @override
   void onClose() {
     super.onClose();
   }
+
   void resetValues() {
     otpController.text = "";
     otpController.clear();
@@ -63,11 +65,10 @@ class OtpController extends GetxController {
   verifyOtpApiFunction(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(context);
-    var request =
-        http.MultipartRequest('POST', Uri.parse(ApiUrls.submitOtp));
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.submitOtp));
     request.fields.addAll({
       "mobile": mobileNumber,
-      "device_token":prefs.getString('fcmToken').toString(),
+      "device_token": prefs.getString('fcmToken').toString(),
       'otp': otpController.text,
       'ref_type': refType,
     });
@@ -82,23 +83,33 @@ class OtpController extends GetxController {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', result['token'].toString());
         prefs.setBool('isLogin', true);
-        if( result["data"]["user_type"].toString()=="2")
-          {
-            prefs.setBool('expertIsLogin', true);
-            prefs.setString('id', result["data"]["id"].toString());
-            prefs.setString('expert_id', result['data']["expert_details"]["id"].toString());
-            prefs.setString('expert_name', result['data']["name"].toString());
-            prefs.setString('expert_profile', result['data']["profile_picture"].toString());
-            prefs.setString('status', result['data']["expert_details"]["status"].toString());
-            prefs.setString('expert_qr_code', result['data']['expert_qr_code']);
+        if (result["data"]["user_type"].toString() == "2") {
+          prefs.setBool('expertIsLogin', true);
+          prefs.setString('id', result["data"]["id"].toString());
+          prefs.setString(
+              'expert_id', result['data']["expert_details"]["id"].toString());
+          prefs.setString('expert_name', result['data']["name"].toString());
+          prefs.setString(
+              'expert_profile', result['data']["profile_picture"].toString());
+          prefs.setString(
+              'status', result['data']["expert_details"]["status"].toString());
+          prefs.setString('expert_qr_code', result['data']['expert_qr_code']);
+          if (refType == 'change_mobile') {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          } else {
             Get.toNamed(AppRoutes.expertDashboardScreen);
           }
-        else
-          {
-            prefs.setString('id', result["data"]["id"].toString());
-            prefs.setBool('userIsLogin', true);
+        } else {
+          prefs.setString('id', result["data"]["id"].toString());
+          prefs.setBool('userIsLogin', true);
+          if (refType == 'change_mobile') {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          } else {
             Get.toNamed(AppRoutes.dashboardScreen);
           }
+        }
       } else {
         resetValues();
         Navigator.of(context).pop();
@@ -111,9 +122,12 @@ class OtpController extends GetxController {
 
   resendOtpApiFunction(BuildContext context) async {
     showCircleProgressDialog(context);
-    var request =
-        http.MultipartRequest('POST', Uri.parse(ApiUrls.resendOtp));
+    var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.resendOtp));
     request.fields.addAll({
+      'mobile': mobileNumber,
+      'ref_type': refType,
+    });
+    print({
       'mobile': mobileNumber,
       'ref_type': refType,
     });

@@ -23,7 +23,8 @@ class EditProfileScreen extends GetView<EditProfileController> {
       body: Form(
         key: controller.profileFormKey,
         child: Padding(
-          padding: const EdgeInsets.only(left: 20, right: 20, top: 10,bottom: 20),
+          padding:
+              const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 20),
           child: Container(
             height: MediaQuery.of(context).size.height,
             child: Column(
@@ -37,7 +38,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                         padding: const EdgeInsets.all(3.0),
                         child: CustomTextField(
                           hintText: "",
-                          labelText:registerFullName,
+                          labelText: registerFullName,
                           auto: AutovalidateMode.onUserInteraction,
                           controller: controller.fullNameController,
                           validator: (value) {
@@ -48,17 +49,20 @@ class EditProfileScreen extends GetView<EditProfileController> {
                           },
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: CustomTextField(
                           hintText: "",
-                          labelText:registerMobileNumber,
+                          labelText: registerMobileNumber,
                           auto: AutovalidateMode.onUserInteraction,
                           controller: controller.numberController,
-                          isReadOnly: true,
+                          isReadOnly: false,
                           inputFormatters: [
                             new LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.digitsOnly
                           ],
                           textInputType: TextInputType.phone,
                           validator: (value) {
@@ -71,25 +75,25 @@ class EditProfileScreen extends GetView<EditProfileController> {
                           },
                         ),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(
+                        height: 10,
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(3.0),
                         child: CustomTextField(
                           hintText: "",
-                          labelText:registerEmailAddress,
+                          labelText: registerEmailAddress,
                           auto: AutovalidateMode.onUserInteraction,
                           controller: controller.emailController,
-                          validator: (value) {
-                            if (value == null ||
-                                (!isValidEmail(value, isRequired: true))) {
-                              return "Please enter valid email";
-                            }
-                            return null;
-                          },
+                          // validator: (value) {
+                          //   if (value == null ||
+                          //       (!isValidEmail(value, isRequired: true))) {
+                          //     return "Please enter valid email";
+                          //   }
+                          //   return null;
+                          // },
                         ),
                       ),
-
-
                     ],
                   ),
                 ),
@@ -101,7 +105,8 @@ class EditProfileScreen extends GetView<EditProfileController> {
                       color: ColorConstant.onBoardingBack,
                       isLoading: controller.isLoading.value,
                       onTap: () {
-                        if (controller.profileFormKey.currentState!.validate()) {
+                        if (controller.profileFormKey.currentState!
+                            .validate()) {
                           controller.uploadApiFunction(context);
                         } else {}
                       }),
@@ -113,6 +118,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
       ),
     );
   }
+
   AppBar appBar(BuildContext context, Function() onTap) {
     return AppBar(
       backgroundColor: ColorConstant.white,
@@ -123,7 +129,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
         SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.only(left: 15,right: 15),
+            padding: const EdgeInsets.only(left: 15, right: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -144,7 +150,6 @@ class EditProfileScreen extends GetView<EditProfileController> {
                     ),
                   ),
                 ),
-
                 Center(
                   child: getText(
                       title: "Personal Information",
@@ -169,5 +174,4 @@ class EditProfileScreen extends GetView<EditProfileController> {
       centerTitle: true,
     );
   }
-
 }

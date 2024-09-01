@@ -79,6 +79,7 @@ class UserRegistrationScreen extends GetWidget<UserRegistrationController> {
                               textInputAction: TextInputAction.next,
                               inputFormatters: [
                                 LengthLimitingTextInputFormatter(10),
+                                FilteringTextInputFormatter.digitsOnly
                               ],
                               textInputType: TextInputType.number,
                               controller: controller.numberController,
