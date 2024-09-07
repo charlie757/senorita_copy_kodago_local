@@ -59,7 +59,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                           labelText: registerMobileNumber,
                           auto: AutovalidateMode.onUserInteraction,
                           controller: controller.numberController,
-                          isReadOnly: false,
+                          isReadOnly: true,
                           inputFormatters: [
                             new LengthLimitingTextInputFormatter(10),
                             FilteringTextInputFormatter.digitsOnly
@@ -105,6 +105,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                       color: ColorConstant.onBoardingBack,
                       isLoading: controller.isLoading.value,
                       onTap: () {
+                        print(controller.emailController.text);
                         if (controller.profileFormKey.currentState!
                             .validate()) {
                           controller.uploadApiFunction(context);

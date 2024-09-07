@@ -57,7 +57,7 @@ class LoginController extends GetxController {
       if (result["success"] == true) {
         Get.toNamed(AppRoutes.otpScreen,arguments: ['login', mobileController.text.toString()]);
         LoginFormKey.currentState?.reset();
-        mobileController.text = "";
+        // mobileController.text = "";
         resetValues();
         checkBoxValue.value=false;
       } else {

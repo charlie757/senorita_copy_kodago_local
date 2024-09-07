@@ -11,9 +11,7 @@ import 'package:senorita/utils/utils.dart';
 import 'ScreenRoutes/apppages.dart';
 import 'ScreenRoutes/routes.dart';
 
-Future<void> backgroundHandler(RemoteMessage message) async {
-  print('Handling a background message ${message.messageId}');
-}
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -94,6 +94,7 @@ class FilterController extends GetxController {
         if (body['subcat'].isNotEmpty) {
           subCatList = body['subcat'].split(',').map(int.parse).toList();
         }
+
         for (int i = 0; i < mergeCategoryModel.value.data!.length; i++) {
           for (int j = 0; j < catList.length; j++) {
             if (mergeCategoryModel.value.data![i].id.toString() ==
@@ -101,7 +102,7 @@ class FilterController extends GetxController {
               mergeCategoryModel.value.data![i].isSelectedCat.value = true;
               mergeCategoryModel.value.selectedCategory.add({
                 "name": mergeCategoryModel.value.data![i].name,
-                "id": catList[j].toString()
+                "id": catList[j].toString(),
               });
             }
           }
@@ -114,9 +115,28 @@ class FilterController extends GetxController {
                   subCatList[m].toString()) {
                 mergeCategoryModel.value.data![i].subcategory![k]
                     .isSelectedSubCat.value = true;
-                mergeCategoryModel
-                    .value.data![i].subcategory![k].selectedSubCategory
-                    .add(subCatList[m].toString());
+                for (var category in body['catList']) {
+                  String catName = category['name'];
+                  int catId = int.parse(category['id']);
+                  // Iterate through each subcategory and create the reverted structure
+                  for (var subCat in category['subCat']) {
+                    if (mergeCategoryModel.value.data![i].subcategory![k].id
+                            .toString() ==
+                        subCat['id'].toString()) {
+                      mergeCategoryModel
+                          .value.data![i].subcategory![k].selectedSubCategory
+                          .add({
+                        "id": subCat['id'],
+                        "name": subCat['name'],
+                        "catName": catName,
+                        "catId": catId
+                      });
+                    }
+                  }
+                }
+                // mergeCategoryModel
+                //     .value.data![i].subcategory![k].selectedSubCategory
+                //     .add(subCatList[m].toString());
               }
             }
           }

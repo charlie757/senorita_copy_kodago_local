@@ -98,12 +98,6 @@ class FilterScreen extends GetView<FilterController> {
                 controller.selectedDiscountValue.value = '';
                 controller.selectedRating.value = 0.0;
                 controller.currentRangeValues.value = 0.0;
-                // Get.back(result: {'category':'','subcat':'','price':'','discount':'',
-                //   'rating':controller.selectedRating.value,'distance':"0-0",
-                //   'offer':controller.route.value=='offer'?'':'2',
-                //   'topRated':'',
-                //   'arrivals':''
-                // },);
               },
               child: Container(
                 height: 25,
@@ -259,9 +253,13 @@ class FilterScreen extends GetView<FilterController> {
                         } else {
                           controller.subCatModel.value.data![index].isSelected
                               .value = true;
-                          controller.subCatModel.value.selectedList.add(
-                              controller.subCatModel.value.data![index].id
-                                  .toString());
+                          controller.subCatModel.value.selectedList.add({
+                            'id': controller.subCatModel.value.data![index].id
+                                .toString(),
+                            'name': controller
+                                .subCatModel.value.data![index].name
+                                .toString(),
+                          });
                         }
                       },
                       child: Row(
@@ -323,7 +321,30 @@ class FilterScreen extends GetView<FilterController> {
                                   .data![index].subcategory);
                               if (controller.mergeCategoryModel.value
                                   .data![index].isSelectedCat.value) {
+                                print('object');
+
                                 /// default value
+                                ///  unselected subcat
+                                for (int i = 0;
+                                    i <
+                                        controller.mergeCategoryModel.value
+                                            .data![index].subcategory!.length;
+                                    i++) {
+                                  controller
+                                      .mergeCategoryModel
+                                      .value
+                                      .data![index]
+                                      .subcategory![i]
+                                      .isSelectedSubCat
+                                      .value = false;
+                                  controller
+                                      .mergeCategoryModel
+                                      .value
+                                      .data![index]
+                                      .subcategory![i]
+                                      .selectedSubCategory
+                                      .clear();
+                                }
                                 for (int i = 0;
                                     i <
                                         controller.mergeCategoryModel.value
@@ -389,9 +410,22 @@ class FilterScreen extends GetView<FilterController> {
                                         .data![index]
                                         .subcategory![i]
                                         .selectedSubCategory
-                                        .add(controller.mergeCategoryModel.value
-                                            .data![index].subcategory![i].id
-                                            .toString());
+                                        .add({
+                                      'id': controller.mergeCategoryModel.value
+                                          .data![index].subcategory![i].id
+                                          .toString(),
+                                      'name': controller
+                                          .mergeCategoryModel
+                                          .value
+                                          .data![index]
+                                          .subcategory![i]
+                                          .name
+                                          .toString(),
+                                      "catName": controller.mergeCategoryModel
+                                          .value.data![index].name,
+                                      'catId': controller.mergeCategoryModel
+                                          .value.data![index].id
+                                    });
                                   }
                                 }
                               }
@@ -502,6 +536,8 @@ class FilterScreen extends GetView<FilterController> {
                                               .subcategory![sbIndex]
                                               .isSelectedSubCat
                                               .value = false;
+
+                                          /// this loop is for sub cat
                                           for (int i = 0;
                                               i <
                                                   controller
@@ -513,11 +549,12 @@ class FilterScreen extends GetView<FilterController> {
                                                       .length;
                                               i++) {
                                             if (controller
-                                                    .mergeCategoryModel
-                                                    .value
-                                                    .data![index]
-                                                    .subcategory![sbIndex]
-                                                    .selectedSubCategory[i] ==
+                                                        .mergeCategoryModel
+                                                        .value
+                                                        .data![index]
+                                                        .subcategory![sbIndex]
+                                                        .selectedSubCategory[i]
+                                                    ['id'] ==
                                                 controller
                                                     .mergeCategoryModel
                                                     .value
@@ -525,6 +562,7 @@ class FilterScreen extends GetView<FilterController> {
                                                     .subcategory![sbIndex]
                                                     .id
                                                     .toString()) {
+                                              // controller.mergeCategoryModel.value.data![index].selectedSubCat.removeAt(sbIndex);
                                               controller
                                                   .mergeCategoryModel
                                                   .value
@@ -532,9 +570,116 @@ class FilterScreen extends GetView<FilterController> {
                                                   .subcategory![sbIndex]
                                                   .selectedSubCategory
                                                   .removeAt(i);
+                                              print(
+                                                  "bfsdf...${controller.mergeCategoryModel.value.selectedCategory}");
+                                            }
+                                          }
+
+                                          /// to unselect the category
+                                          for (int i = 0;
+                                              i <
+                                                  controller.mergeCategoryModel
+                                                      .value.data!.length;
+                                              i++) {
+                                            for (int j = 0;
+                                                j <
+                                                    controller
+                                                        .mergeCategoryModel
+                                                        .value
+                                                        .data![i]
+                                                        .subcategory!
+                                                        .length;
+                                                j++) {
+                                              print(controller
+                                                  .mergeCategoryModel
+                                                  .value
+                                                  .data![i]
+                                                  .subcategory![j]
+                                                  .selectedSubCategory);
+                                              for (int k = 0;
+                                                  k <
+                                                      controller
+                                                          .mergeCategoryModel
+                                                          .value
+                                                          .data![i]
+                                                          .subcategory![j]
+                                                          .selectedSubCategory
+                                                          .length;
+                                                  k++) {
+                                                print(controller
+                                                        .mergeCategoryModel
+                                                        .value
+                                                        .data![i]
+                                                        .subcategory![j]
+                                                        .selectedSubCategory[k]
+                                                    ['id']);
+                                                if (controller
+                                                            .mergeCategoryModel
+                                                            .value
+                                                            .data![i]
+                                                            .subcategory![j]
+                                                            .selectedSubCategory[
+                                                        k]['catId'] !=
+                                                    controller
+                                                        .mergeCategoryModel
+                                                        .value
+                                                        .data![index]
+                                                        .id) {
+                                                  controller
+                                                      .mergeCategoryModel
+                                                      .value
+                                                      .data![index]
+                                                      .selectedSubCat = false;
+                                                }
+                                              }
                                             }
                                           }
                                         } else {
+                                          for (int i = 0;
+                                              i <
+                                                  controller
+                                                      .mergeCategoryModel
+                                                      .value
+                                                      .data![index]
+                                                      .subcategory!
+                                                      .length;
+                                              i++) {
+                                            if (controller
+                                                    .mergeCategoryModel
+                                                    .value
+                                                    .data![index]
+                                                    .subcategory![i]
+                                                    .isSelectedSubCat ==
+                                                true) {
+                                              print('dsgfdf');
+                                              break;
+                                            } else {
+                                              print('dfgfd');
+                                              controller.mergeCategoryModel
+                                                  .value.selectedCategory
+                                                  .add({
+                                                "name": controller
+                                                    .mergeCategoryModel
+                                                    .value
+                                                    .data![index]
+                                                    .name
+                                                    .toString(),
+                                                "id": controller
+                                                    .mergeCategoryModel
+                                                    .value
+                                                    .data![index]
+                                                    .id
+                                                    .toString()
+                                              });
+                                              controller
+                                                  .mergeCategoryModel
+                                                  .value
+                                                  .data![index]
+                                                  .isSelectedCat
+                                                  .value = true;
+                                              break;
+                                            }
+                                          }
                                           controller
                                               .mergeCategoryModel
                                               .value
@@ -548,13 +693,33 @@ class FilterScreen extends GetView<FilterController> {
                                               .data![index]
                                               .subcategory![sbIndex]
                                               .selectedSubCategory
-                                              .add(controller
-                                                  .mergeCategoryModel
-                                                  .value
-                                                  .data![index]
-                                                  .subcategory![sbIndex]
-                                                  .id
-                                                  .toString());
+                                              .add({
+                                            'id': controller
+                                                .mergeCategoryModel
+                                                .value
+                                                .data![index]
+                                                .subcategory![sbIndex]
+                                                .id
+                                                .toString(),
+                                            'name': controller
+                                                .mergeCategoryModel
+                                                .value
+                                                .data![index]
+                                                .subcategory![sbIndex]
+                                                .name
+                                                .toString(),
+                                            "catName": controller
+                                                .mergeCategoryModel
+                                                .value
+                                                .data![index]
+                                                .name,
+                                            'catId': controller
+                                                .mergeCategoryModel
+                                                .value
+                                                .data![index]
+                                                .id
+                                          });
+                                          //////
                                         }
                                       },
                                       child: Row(
@@ -995,12 +1160,10 @@ class FilterScreen extends GetView<FilterController> {
 
   callBack() {
     if (controller.route.value == 'offer') {
-      print('iffs');
-      List subCat = [];
-      String subCatId = '';
-      String catId = controller.mergeCategoryModel.value.selectedCategory.value
-          .map((e) => e['id'])
-          .join(',');
+      List allCatList = [];
+      List<Map<String, dynamic>> result = [];
+      Map<int, Map<String, dynamic>> categoryMap = {};
+
       for (int i = 0;
           i < controller.mergeCategoryModel.value.data!.length;
           i++) {
@@ -1009,22 +1172,58 @@ class FilterScreen extends GetView<FilterController> {
                 controller
                     .mergeCategoryModel.value.data![i].subcategory!.length;
             j++) {
-          if (controller.mergeCategoryModel.value.data![i].subcategory![j]
-              .selectedSubCategory.isNotEmpty) {
+          for (int k = 0;
+              k <
+                  controller.mergeCategoryModel.value.data![i].subcategory![j]
+                      .selectedSubCategory.length;
+              k++) {
+            allCatList.add({
+              "id": controller.mergeCategoryModel.value.data![i].subcategory![j]
+                  .selectedSubCategory[k]['id'],
+              "name": controller.mergeCategoryModel.value.data![i]
+                  .subcategory![j].selectedSubCategory[k]['name'],
+              "catName": controller.mergeCategoryModel.value.data![i]
+                  .subcategory![j].selectedSubCategory[k]['catName'],
+              "catId": controller.mergeCategoryModel.value.data![i]
+                  .subcategory![j].selectedSubCategory[k]['catId']
+            });
+
             print(controller.mergeCategoryModel.value.data![i].subcategory![j]
-                .selectedSubCategory);
-            subCat = subCat +
-                controller.mergeCategoryModel.value.data![i].subcategory![j]
-                    .selectedSubCategory;
+                .selectedSubCategory[k]['id']);
           }
         }
       }
-      subCatId = subCat.map((e) => e).join(',');
-      print(subCatId);
+      // print(allCatList);
+      for (var item in allCatList) {
+        int catId = item['catId'];
+        String catName = item['catName'];
+        // If category is not already added, create a new entry
+        if (!categoryMap.containsKey(catId)) {
+          categoryMap[catId] = {
+            "name": catName,
+            "id": catId.toString(),
+            "subCat": []
+          };
+        }
+
+        categoryMap[catId]!['subCat']
+            .add({"id": item['id'].toString(), "name": item['name']});
+      }
+
+      result = categoryMap.values.toList();
+
+      // print(result);
+      String subCatIds = result
+          .expand((category) => category['subCat'])
+          .map((subCat) => subCat['id'].toString())
+          .join(', ');
+      String categoryIds =
+          result.map((category) => category['id'].toString()).join(', ');
       Get.back(
         result: {
-          'category': catId,
-          'subcat': subCatId,
+          'category': categoryIds,
+          'catList': result,
+          'subcat': subCatIds,
           'price':
               controller.selectedPriceValue.value.toLowerCase() == "low to high"
                   ? "desc"
@@ -1046,11 +1245,10 @@ class FilterScreen extends GetView<FilterController> {
       );
     } else if (controller.selectedCategoryIdBySingleScreen.isEmpty) {
       print('elsefs');
-      List subCat = [];
-      String subCatId = '';
-      String catId = controller.mergeCategoryModel.value.selectedCategory.value
-          .map((e) => e['id'])
-          .join(',');
+      List allCatList = [];
+      List<Map<String, dynamic>> result = [];
+      Map<int, Map<String, dynamic>> categoryMap = {};
+
       for (int i = 0;
           i < controller.mergeCategoryModel.value.data!.length;
           i++) {
@@ -1059,22 +1257,57 @@ class FilterScreen extends GetView<FilterController> {
                 controller
                     .mergeCategoryModel.value.data![i].subcategory!.length;
             j++) {
-          if (controller.mergeCategoryModel.value.data![i].subcategory![j]
-              .selectedSubCategory.isNotEmpty) {
+          for (int k = 0;
+              k <
+                  controller.mergeCategoryModel.value.data![i].subcategory![j]
+                      .selectedSubCategory.length;
+              k++) {
+            allCatList.add({
+              "id": controller.mergeCategoryModel.value.data![i].subcategory![j]
+                  .selectedSubCategory[k]['id'],
+              "name": controller.mergeCategoryModel.value.data![i]
+                  .subcategory![j].selectedSubCategory[k]['name'],
+              "catName": controller.mergeCategoryModel.value.data![i]
+                  .subcategory![j].selectedSubCategory[k]['catName'],
+              "catId": controller.mergeCategoryModel.value.data![i]
+                  .subcategory![j].selectedSubCategory[k]['catId']
+            });
+
             print(controller.mergeCategoryModel.value.data![i].subcategory![j]
-                .selectedSubCategory);
-            subCat = subCat +
-                controller.mergeCategoryModel.value.data![i].subcategory![j]
-                    .selectedSubCategory;
+                .selectedSubCategory[k]['id']);
           }
         }
       }
-      subCatId = subCat.map((e) => e).join(',');
-      print(subCatId);
+      // print(allCatList);
+      for (var item in allCatList) {
+        int catId = item['catId'];
+        String catName = item['catName'];
+        // If category is not already added, create a new entry
+        if (!categoryMap.containsKey(catId)) {
+          categoryMap[catId] = {
+            "name": catName,
+            "id": catId.toString(),
+            "subCat": []
+          };
+        }
+
+        categoryMap[catId]!['subCat']
+            .add({"id": item['id'].toString(), "name": item['name']});
+      }
+
+      result = categoryMap.values.toList();
+      String subCatIds = result
+          .expand((category) => category['subCat'])
+          .map((subCat) => subCat['id'].toString())
+          .join(', ');
+      String categoryIds =
+          result.map((category) => category['id'].toString()).join(', ');
+
       Get.back(
         result: {
-          'category': catId,
-          'subcat': subCatId,
+          'category': categoryIds,
+          'catList': result,
+          'subcat': subCatIds,
           'price':
               controller.selectedPriceValue.value.toLowerCase() == "low to high"
                   ? "desc"
@@ -1095,8 +1328,10 @@ class FilterScreen extends GetView<FilterController> {
         },
       );
     } else {
-      String subCatId =
-          controller.subCatModel.value.selectedList.map((e) => e).join(',');
+      print("sdgfgelse");
+      String subCatId = controller.subCatModel.value.selectedList
+          .map((e) => e['id'])
+          .join(',');
       print('vsdfs..$subCatId');
       Get.back(
         result: {

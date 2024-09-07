@@ -32,12 +32,14 @@ class OffersScreen extends GetView<OffersController> {
         onRefresh: () => controller.allOffersApiFunction(false),
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
-            if (scrollNotification is ScrollStartNotification) {
-            } else if (scrollNotification is ScrollUpdateNotification) {
-            } else if (scrollNotification is ScrollEndNotification) {
-              if (scrollNotification.metrics.pixels >=
-                  scrollNotification.metrics.maxScrollExtent - 40) {
-                controller.allOffersPaginationApiFunction();
+            if (scrollNotification.metrics.axis == Axis.vertical) {
+              if (scrollNotification is ScrollStartNotification) {
+              } else if (scrollNotification is ScrollUpdateNotification) {
+              } else if (scrollNotification is ScrollEndNotification) {
+                if (scrollNotification.metrics.pixels >=
+                    scrollNotification.metrics.maxScrollExtent - 40) {
+                  controller.allOffersPaginationApiFunction();
+                }
               }
             }
             return true;
@@ -67,6 +69,8 @@ class OffersScreen extends GetView<OffersController> {
                             ])?.then((value) {
                               print(value);
                               if (value != null) {
+                                controller.selectedCatList.value =
+                                    value['catList'] ?? [];
                                 controller.hasOffer.value =
                                     value['offer'].toString();
                                 controller.category.value =
@@ -92,6 +96,7 @@ class OffersScreen extends GetView<OffersController> {
                                 controller.savedFilterValues = {
                                   'hasOffer': controller.hasOffer.value,
                                   'category': controller.category.value,
+                                  'catList': controller.selectedCatList,
                                   'subcat': controller.subCategory.value,
                                   'price': controller.price.value,
                                   'discount': controller.discount.value,
@@ -125,6 +130,109 @@ class OffersScreen extends GetView<OffersController> {
                     ),
                   ),
                   ScreenSize.height(5),
+                  Obx(
+                    () => SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.only(
+                          left: 15, right: 15, top: 8, bottom: 6),
+                      child: Row(
+                        children: [
+                          controller.selectedCatList.isNotEmpty
+                              ? selectedCategoryWidget()
+                              : Container(),
+                          controller.savedFilterValues != null &&
+                                  controller
+                                      .savedFilterValues['price'].isNotEmpty
+                              ? filtersTypesWidget(
+                                  'Price',
+                                  controller.savedFilterValues['price'] ==
+                                          'desc'
+                                      ? '(Low to High)'
+                                      : '(High to Low)', () {
+                                  controller.price.value = '';
+                                  controller.savedFilterValues['price'] = '';
+                                  controller.allOffersApiFunction(true);
+                                })
+                              : Container(),
+                          controller.savedFilterValues != null &&
+                                  controller
+                                      .savedFilterValues['discount'].isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 15,
+                                  ),
+                                  child: filtersTypesWidget('Discount',
+                                      '(${controller.discount.value})', () {
+                                    controller.discount.value = '';
+                                    controller.savedFilterValues['discount'] =
+                                        '';
+                                    controller.allOffersApiFunction(true);
+                                  }),
+                                )
+                              : Container(),
+                          controller.savedFilterValues != null &&
+                                  controller
+                                      .savedFilterValues['topRated'].isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child:
+                                      filtersTypesWidget('Top Rated', '', () {
+                                    controller.rating.value = '';
+                                    controller.savedFilterValues['topRated'] =
+                                        '';
+                                    controller.allOffersApiFunction(true);
+                                  }),
+                                )
+                              : Container(),
+                          controller.savedFilterValues != null &&
+                                  controller
+                                      .savedFilterValues['rating'].isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: filtersTypesWidget('Rating',
+                                      '(${controller.savedFilterValues['rating']})',
+                                      () {
+                                    controller.rating.value = '';
+                                    controller.savedFilterValues['rating'] = '';
+                                    controller.allOffersApiFunction(true);
+                                  }),
+                                )
+                              : Container(),
+                          controller.savedFilterValues != null &&
+                                  controller
+                                      .savedFilterValues['distance'].isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 15,
+                                  ),
+                                  child: filtersTypesWidget('Distance',
+                                      '(0-${controller.savedFilterValues['distance']})',
+                                      () {
+                                    controller.distance.value = '';
+                                    controller.savedFilterValues['distance'] =
+                                        '';
+                                    controller.allOffersApiFunction(true);
+                                  }),
+                                )
+                              : Container(),
+                          controller.savedFilterValues != null &&
+                                  controller
+                                      .savedFilterValues['arrivals'].isNotEmpty
+                              ? Padding(
+                                  padding: const EdgeInsets.only(left: 15),
+                                  child: filtersTypesWidget('New Arrivals', '',
+                                      () {
+                                    controller.newArrivals.value = '';
+                                    controller.savedFilterValues['arrivals'] =
+                                        '';
+                                    controller.allOffersApiFunction(true);
+                                  }),
+                                )
+                              : Container(),
+                        ],
+                      ),
+                    ),
+                  ),
                   Expanded(
                     child: Container(
                         color: ColorConstant.white,
@@ -190,6 +298,70 @@ class OffersScreen extends GetView<OffersController> {
               )),
         ),
       ),
+    );
+  }
+
+  filtersTypesWidget(String title, String subTitle, Function() onTap) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      decoration: BoxDecoration(
+          color: ColorConstant.white,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: ColorConstant.borderColor)),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          children: [
+            getText(
+                title: title,
+                size: 15,
+                fontFamily: interRegular,
+                color: ColorConstant.black3333,
+                fontWeight: FontWeight.w500),
+            ScreenSize.width(5),
+            getText(
+                title: subTitle,
+                size: 11,
+                fontFamily: interRegular,
+                color: ColorConstant.black2,
+                fontWeight: FontWeight.w400),
+            ScreenSize.width(8),
+            const Icon(
+              Icons.close,
+              size: 17,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  selectedCategoryWidget() {
+    print(controller.selectedCatList);
+    return Row(
+      children: List.generate(controller.selectedCatList.length, (i) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 1),
+          child:
+              filtersTypesWidget(controller.selectedCatList[i]['name'], '', () {
+            controller.selectedCatList.removeAt(i);
+            controller.subCategory.value = controller.selectedCatList
+                .expand((category) => category['subCat'])
+                .map((subCat) => subCat['id'].toString())
+                .join(', ');
+            controller.category.value = controller.selectedCatList
+                .map((category) => category['id'].toString())
+                .join(', ');
+            controller.savedFilterValues['category'] =
+                controller.category.value;
+            controller.savedFilterValues['subcat'] =
+                controller.subCategory.value;
+            controller.savedFilterValues['catList'] =
+                controller.selectedCatList;
+            controller.allOffersApiFunction(true);
+          }),
+        );
+      }),
     );
   }
 }

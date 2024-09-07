@@ -9,6 +9,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
 }
 
+Future<void> backgroundHandler(RemoteMessage message) async {
+  print('Handling a background message ${message.messageId}');
+}
 class NotificationService {
   FirebaseMessaging fcm = FirebaseMessaging.instance;
   AndroidNotificationChannel channel = const AndroidNotificationChannel(

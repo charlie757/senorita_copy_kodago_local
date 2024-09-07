@@ -17,7 +17,9 @@ class OtpController extends GetxController {
   final isLoading = false.obs;
   final otpController = TextEditingController();
   final otpFormKey = GlobalKey<FormState>();
+  final updateOtpFormKey = GlobalKey<FormState>();
   final counter = 0.obs;
+  final isError = false.obs;
   Timer? timer;
   String refType = "";
   String mobileNumber = "";
@@ -58,11 +60,11 @@ class OtpController extends GetxController {
   }
 
   void resetValues() {
-    otpController.text = "";
     otpController.clear();
   }
 
   verifyOtpApiFunction(BuildContext context) async {
+    final userId = refType=='change_mobile'? Get.arguments[2].toString()??'':"";
     SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(context);
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.submitOtp));
@@ -71,14 +73,32 @@ class OtpController extends GetxController {
       "device_token": prefs.getString('fcmToken').toString(),
       'otp': otpController.text,
       'ref_type': refType,
+      'user_id':userId
+    });
+    print({
+      "mobile": mobileNumber,
+      "device_token": prefs.getString('fcmToken').toString(),
+      'otp': otpController.text,
+      'ref_type': refType,
+      'user_id': userId
     });
     var streamedResponse = await request.send();
     var response = await http.Response.fromStream(streamedResponse);
     log(response.body);
+    Navigator.pop(context);
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body) as Map<String, dynamic>;
+      if (refType == 'change_mobile') {
+        if(result['success']==true){
+          Navigator.pop(context);
+        }
+          else {
+      resetValues();
+      showErrorMessageDialog(context, result["message"].toString());
+      }
+      }
+      else{
       if (result["success"] == true) {
-        Navigator.of(context).pop();
         setAuthToken(result['token']);
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('token', result['token'].toString());
@@ -103,18 +123,13 @@ class OtpController extends GetxController {
         } else {
           prefs.setString('id', result["data"]["id"].toString());
           prefs.setBool('userIsLogin', true);
-          if (refType == 'change_mobile') {
-            Navigator.pop(context);
-            Navigator.pop(context);
-          } else {
             Get.toNamed(AppRoutes.dashboardScreen);
-          }
         }
-      } else {
-        resetValues();
-        Navigator.of(context).pop();
-        showErrorMessageDialog(context, result["message"].toString());
       }
+      else {
+        resetValues();
+        showErrorMessageDialog(context, result["message"].toString());
+      }}
     } else {
       print(response.reasonPhrase);
     }

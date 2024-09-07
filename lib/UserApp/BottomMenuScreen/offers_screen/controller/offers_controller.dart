@@ -37,7 +37,7 @@ class OffersController extends GetxController {
 
   final isCategoryLoading = false.obs;
   var savedFilterValues;
-  final hasOffer ='1'.obs;
+  final hasOffer = '1'.obs;
   final latitude = "".obs;
   final longitude = "".obs;
   final category = ''.obs;
@@ -47,17 +47,20 @@ class OffersController extends GetxController {
   final discount = ''.obs;
   final price = ''.obs;
   final distance = ''.obs;
-
-  clearValues(){
-     hasOffer.value ='1';
-     category.value = '';
-     subCategory.value = '';
-     rating.value = '';
-     newArrivals.value = '';
-     discount.value = '';
-     price.value = '';
-     distance.value = '';
-
+  final selectedCatList = [].obs;
+  clearValues() {
+    hasOffer.value = '1';
+    category.value = '';
+    subCategory.value = '';
+    rating.value = '';
+    newArrivals.value = '';
+    discount.value = '';
+    price.value = '';
+    distance.value = '';
+    selectedCatList.clear();
+    isFirstLoadRunning.value = false;
+    isLoadMoreRunning.value = false;
+    savedFilterValues = null;
   }
 
   @override
@@ -74,58 +77,67 @@ class OffersController extends GetxController {
 
   allOffersApiFunction(bool showLoading) async {
     page.value = 1;
-   showLoading?showCircleProgressDialog(Get.context!):
-   allOffersList.isEmpty?  showCircleProgressDialog(Get.context!):null;
+    showLoading
+        ? showCircleProgressDialog(Get.context!)
+        : allOffersList.isEmpty
+            ? showCircleProgressDialog(Get.context!)
+            : null;
     var headers = {'Authorization': 'Bearer $token'};
     var request = http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
-      request.fields.addAll({
+    request.fields.addAll({
       'page_numbar': page.value.toString(),
-        'city_id':'',
+      'city_id': '',
       'has_offer': hasOffer.value,
       'lat': latitude.value.toString(),
       'lng': longitude.value.toString(),
       'category_id': category.value,
-      'distance_val':distance.value,
-        'discount':discount.value,
-      'rating_val':rating.value,
-      'search_val':'',
-      'new_arivals':newArrivals.value,
-      'sub_category_id':subCategory.value
-      });
-      print({
-        'page_numbar': page.value.toString(),
-        'city_id':'',
-        'has_offer': hasOffer.value,
-        'lat': latitude.value.toString(),
-        'lng': longitude.value.toString(),
-        'discount':discount.value,
-        'category_id': category.value,
-        'distance_val':distance.value,
-        'rating_val':rating.value,
-        'search_val':'',
-        'new_arivals':newArrivals.value,
-        'sub_category_id':subCategory.value
-      });
+      'include_item_prices': price.value,
+      'distance_val': distance.value,
+      'discount': discount.value,
+      'rating_val': rating.value,
+      'search_val': '',
+      'new_arivals': newArrivals.value,
+      'sub_category_id': subCategory.value
+    });
+    print({
+      'page_numbar': page.value.toString(),
+      'city_id': '',
+      'has_offer': hasOffer.value,
+      'lat': latitude.value.toString(),
+      'lng': longitude.value.toString(),
+      'include_item_prices': price.value,
+      'discount': discount.value,
+      'category_id': category.value,
+      'distance_val': distance.value,
+      'rating_val': rating.value,
+      'search_val': '',
+      'new_arivals': newArrivals.value,
+      'sub_category_id': subCategory.value
+    });
     request.headers.addAll(headers);
     var streamedResponse = await request.send();
 
     var response = await http.Response.fromStream(streamedResponse)
         .timeout(const Duration(seconds: 60));
     log(response.body);
-    showLoading?Get.back(): allOffersList.isEmpty? Get.back():null;
+    showLoading
+        ? Get.back()
+        : allOffersList.isEmpty
+            ? Get.back()
+            : null;
     isLoading.value = false;
     allOffersList.clear();
     if (response.statusCode == 200) {
       final result = json.decode(response.body);
       if (result['success'] == true && result['success'] != null) {
         for (int i = 0; i < result['data'].length; i++) {
-          UserSpecialOfferModel model = UserSpecialOfferModel.fromJson(result['data'][i]);
+          UserSpecialOfferModel model =
+              UserSpecialOfferModel.fromJson(result['data'][i]);
           allOffersList.add(model);
         }
         count.value = result['total_count'];
       }
-    } else {
-    }
+    } else {}
   }
 
   allOffersPaginationApiFunction() async {
@@ -140,32 +152,33 @@ class OffersController extends GetxController {
           var request =
               http.MultipartRequest('POST', Uri.parse(ApiUrls.getExperts));
           // if (selectedCategoryId != "") {
-            request.fields.addAll({
-              'page_numbar': page.value.toString(),
-              'city_id':'',
-              'has_offer': hasOffer.value,
-              'lat': latitude.value.toString(),
-              'lng': longitude.value.toString(),
-              'category_id': category.value,
-              'discount':discount.value,
-              'distance_val':distance.value,
-              'rating_val':rating.value,
-              'search_val':'',
-              'new_arivals':newArrivals.value,
-              'sub_category_id':subCategory.value
-            });
+          request.fields.addAll({
+            'page_numbar': page.value.toString(),
+            'city_id': '',
+            'has_offer': hasOffer.value,
+            'lat': latitude.value.toString(),
+            'lng': longitude.value.toString(),
+            'category_id': category.value,
+            'discount': discount.value,
+            'distance_val': distance.value,
+            'rating_val': rating.value,
+            'search_val': '',
+            'new_arivals': newArrivals.value,
+            'sub_category_id': subCategory.value
+          });
           request.headers.addAll(headers);
           var streamedResponse = await request.send();
           var response = await http.Response.fromStream(streamedResponse);
           if (response.statusCode == 200) {
-            final result = json.decode(response.body) ;
+            final result = json.decode(response.body);
             if (result['success'] == true && result['success'] != null) {
               List list = [];
               for (int i = 0; i < result['data'].length; i++) {
-                UserSpecialOfferModel model = UserSpecialOfferModel.fromJson(result['data'][i]);
+                UserSpecialOfferModel model =
+                    UserSpecialOfferModel.fromJson(result['data'][i]);
                 list.add(model);
               }
-              allOffersList.value = allOffersList.value+list;
+              allOffersList.value = allOffersList.value + list;
               isLoadMoreRunning.value = false;
             }
           }

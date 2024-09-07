@@ -3,7 +3,7 @@ class UserProfileModel {
   Data? data;
   dynamic message;
 
-  UserProfileModel({this.success, this.data, this.message});
+    UserProfileModel({this.success, this.data, this.message});
 
   UserProfileModel.fromJson(Map<String, dynamic> json) {
     success = json['success'];

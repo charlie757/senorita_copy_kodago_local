@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:senorita/CommonScreens/otp_screen/controller/otp_controller.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:senorita/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -89,7 +90,10 @@ class EditProfileController extends GetxController {
           Get.toNamed(AppRoutes.otpScreen, arguments: [
             "update",
             numberController.text.toString(),
+            profileController.model.value.data!.id
           ]);
+          print(profileController.model.value.data!.id);
+          Get.find<OtpController>().onInit();
         } else {
           profileController.profileApiFunction();
           Get.back();

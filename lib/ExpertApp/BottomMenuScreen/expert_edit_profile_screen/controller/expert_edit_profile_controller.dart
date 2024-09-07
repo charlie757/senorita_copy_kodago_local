@@ -3,9 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:senorita/CommonScreens/otp_screen/controller/otp_controller.dart';
 import 'package:senorita/ExpertApp/BottomMenuScreen/expert_edit_profile_screen/models/edit_categorymodel.dart';
 import 'package:senorita/ScreenRoutes/routes.dart';
 import 'package:senorita/UserApp/BottomMenuScreen/profile_screen/controller/profile_controller.dart';
+import 'package:senorita/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -318,6 +320,7 @@ class ExpertEditProfileController extends GetxController {
   }
 
   submitExpertProfileApi(BuildContext context) async {
+    Utils.hideKeyboard();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     showCircleProgressDialog(Get.context!);
     isLoading.value = true;
@@ -386,9 +389,15 @@ class ExpertEditProfileController extends GetxController {
           Get.toNamed(AppRoutes.otpScreen, arguments: [
             "update",
             numberController.text.toString(),
-          ]);
+             result['data']['id']
+          ])!.then((val){
+            // Get.back();
+            // Get.find<ExpertProfileController>().profileApiFunction();
+          });
+          Get.find<OtpController>().onInit();
         } else {
           Get.back();
+          Get.find<ExpertProfileController>().profileApiFunction();
           showToast(result["message"].toString());
         }
         // Get.offAllNamed(AppRoutes.expertDashboardScreen);
