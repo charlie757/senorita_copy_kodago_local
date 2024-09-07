@@ -3,16 +3,18 @@ class AppRoutes {
   static var registerAccountScreen = '/registerAccountScreen';
   static var homeScreen = '/homeScreen';
   static var dashboardScreen = '/dashboardScreen';
-  static var searchScreen= '/searchScreen';
+  static var searchScreen = '/searchScreen';
   static var changePasswordScreen = '/changePassword';
   static var helpScreen = '/helpScreen';
   static var categoryListScreen = '/categoryListScreen';
   static var salonDetailsScreen = '/salonDetailsScreen';
   static var changeLocationScreen = '/changeLocationScreen';
+
   ///Expert Screen
   static var expertRegistrationScreen = '/expertRegistrationScreen';
   static var expertHomeScreen = '/expertHomeScreen';
   static var expertProfileScreen = '/expertProfileScreen';
+
   ///Common Screen
   static var splash = '/splash';
   static var introScreen = '/introScreen';
@@ -20,9 +22,11 @@ class AppRoutes {
   static var otpScreen = '/otpScreen';
   static var selectCreateAccount = '/selectCreateAccount';
   static var selectTypeScreen = '/selectTypeScreen';
+
   ///User Screen
   static var userLoginScreen = '/userLoginScreen';
   static var userRegistrationScreen = '/userRegistrationScreen';
+
   ///Dashboard
   static var myEarningScreen = '/myEarningScreen';
   static var paymentConsScreen = '/paymentConsScreen';
@@ -30,7 +34,6 @@ class AppRoutes {
   static var helpSupportScreen = '/helpSupportScreen';
   static var otpProfileScreen = '/otpProfileScreen';
   static var homeNewScreen = '/homeNewScreen';
-
 
   static var offerScreen = '/offerScreen';
 
@@ -48,9 +51,6 @@ class AppRoutes {
 
   static var singleCategoryListScreen = '/singleCategoryListScreen';
 
-
-
-
   ///Expert All Routes
   static var expertDashboardScreen = '/expertDashboardScreen';
   static var expertEditProfileScreen = '/expertEditProfileScreen';
@@ -64,28 +64,10 @@ class AppRoutes {
   static var addPhotos = '/addPhotos';
   static var addPriceList = '/addPriceList';
 
-
   static var editMap = '/editMap';
 
   static var editSearchMap = '/editSearchMap';
 
-
   static var menuPriceList = '/menuPriceList';
   static var filterScreen = '/filterScreen';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

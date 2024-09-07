@@ -157,77 +157,53 @@ class OffersScreen extends GetView<OffersController> {
                           controller.savedFilterValues != null &&
                                   controller
                                       .savedFilterValues['discount'].isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                  ),
-                                  child: filtersTypesWidget('Discount',
-                                      '(${controller.discount.value})', () {
-                                    controller.discount.value = '';
-                                    controller.savedFilterValues['discount'] =
-                                        '';
-                                    controller.allOffersApiFunction(true);
-                                  }),
-                                )
+                              ? filtersTypesWidget(
+                                  'Discount', '(${controller.discount.value})',
+                                  () {
+                                  controller.discount.value = '';
+                                  controller.savedFilterValues['discount'] = '';
+                                  controller.allOffersApiFunction(true);
+                                })
                               : Container(),
                           controller.savedFilterValues != null &&
                                   controller
                                       .savedFilterValues['topRated'].isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child:
-                                      filtersTypesWidget('Top Rated', '', () {
-                                    controller.rating.value = '';
-                                    controller.savedFilterValues['topRated'] =
-                                        '';
-                                    controller.allOffersApiFunction(true);
-                                  }),
-                                )
+                              ? filtersTypesWidget('Top Rated', '', () {
+                                  controller.rating.value = '';
+                                  controller.savedFilterValues['topRated'] = '';
+                                  controller.allOffersApiFunction(true);
+                                })
                               : Container(),
                           controller.savedFilterValues != null &&
                                   controller
                                       .savedFilterValues['rating'].isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: filtersTypesWidget('Rating',
-                                      '(${controller.savedFilterValues['rating']})',
-                                      () {
-                                    controller.rating.value = '';
-                                    controller.savedFilterValues['rating'] = '';
-                                    controller.allOffersApiFunction(true);
-                                  }),
-                                )
+                              ? filtersTypesWidget('Rating',
+                                  '(${controller.savedFilterValues['rating']})',
+                                  () {
+                                  controller.rating.value = '';
+                                  controller.savedFilterValues['rating'] = '';
+                                  controller.allOffersApiFunction(true);
+                                })
                               : Container(),
                           controller.savedFilterValues != null &&
                                   controller
                                       .savedFilterValues['distance'].isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 15,
-                                  ),
-                                  child: filtersTypesWidget('Distance',
-                                      '(0-${controller.savedFilterValues['distance']})',
-                                      () {
-                                    controller.distance.value = '';
-                                    controller.savedFilterValues['distance'] =
-                                        '';
-                                    controller.allOffersApiFunction(true);
-                                  }),
-                                )
+                              ? filtersTypesWidget('Distance',
+                                  '(0-${controller.savedFilterValues['distance']})',
+                                  () {
+                                  controller.distance.value = '';
+                                  controller.savedFilterValues['distance'] = '';
+                                  controller.allOffersApiFunction(true);
+                                })
                               : Container(),
                           controller.savedFilterValues != null &&
                                   controller
                                       .savedFilterValues['arrivals'].isNotEmpty
-                              ? Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: filtersTypesWidget('New Arrivals', '',
-                                      () {
-                                    controller.newArrivals.value = '';
-                                    controller.savedFilterValues['arrivals'] =
-                                        '';
-                                    controller.allOffersApiFunction(true);
-                                  }),
-                                )
+                              ? filtersTypesWidget('New Arrivals', '', () {
+                                  controller.newArrivals.value = '';
+                                  controller.savedFilterValues['arrivals'] = '';
+                                  controller.allOffersApiFunction(true);
+                                })
                               : Container(),
                         ],
                       ),
@@ -303,6 +279,7 @@ class OffersScreen extends GetView<OffersController> {
 
   filtersTypesWidget(String title, String subTitle, Function() onTap) {
     return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
           color: ColorConstant.white,
@@ -340,27 +317,21 @@ class OffersScreen extends GetView<OffersController> {
     print(controller.selectedCatList);
     return Row(
       children: List.generate(controller.selectedCatList.length, (i) {
-        return Padding(
-          padding: const EdgeInsets.only(right: 1),
-          child:
-              filtersTypesWidget(controller.selectedCatList[i]['name'], '', () {
-            controller.selectedCatList.removeAt(i);
-            controller.subCategory.value = controller.selectedCatList
-                .expand((category) => category['subCat'])
-                .map((subCat) => subCat['id'].toString())
-                .join(', ');
-            controller.category.value = controller.selectedCatList
-                .map((category) => category['id'].toString())
-                .join(', ');
-            controller.savedFilterValues['category'] =
-                controller.category.value;
-            controller.savedFilterValues['subcat'] =
-                controller.subCategory.value;
-            controller.savedFilterValues['catList'] =
-                controller.selectedCatList;
-            controller.allOffersApiFunction(true);
-          }),
-        );
+        return filtersTypesWidget(controller.selectedCatList[i]['name'], '',
+            () {
+          controller.selectedCatList.removeAt(i);
+          controller.subCategory.value = controller.selectedCatList
+              .expand((category) => category['subCat'])
+              .map((subCat) => subCat['id'].toString())
+              .join(', ');
+          controller.category.value = controller.selectedCatList
+              .map((category) => category['id'].toString())
+              .join(', ');
+          controller.savedFilterValues['category'] = controller.category.value;
+          controller.savedFilterValues['subcat'] = controller.subCategory.value;
+          controller.savedFilterValues['catList'] = controller.selectedCatList;
+          controller.allOffersApiFunction(true);
+        });
       }),
     );
   }

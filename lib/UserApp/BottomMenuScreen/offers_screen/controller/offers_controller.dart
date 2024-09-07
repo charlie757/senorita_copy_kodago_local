@@ -159,6 +159,7 @@ class OffersController extends GetxController {
             'lat': latitude.value.toString(),
             'lng': longitude.value.toString(),
             'category_id': category.value,
+            'include_item_prices': price.value,
             'discount': discount.value,
             'distance_val': distance.value,
             'rating_val': rating.value,

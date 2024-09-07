@@ -572,65 +572,43 @@ class FilterScreen extends GetView<FilterController> {
                                                   .removeAt(i);
                                               print(
                                                   "bfsdf...${controller.mergeCategoryModel.value.selectedCategory}");
-                                            }
-                                          }
-
-                                          /// to unselect the category
-                                          for (int i = 0;
-                                              i <
-                                                  controller.mergeCategoryModel
-                                                      .value.data!.length;
-                                              i++) {
-                                            for (int j = 0;
-                                                j <
-                                                    controller
-                                                        .mergeCategoryModel
-                                                        .value
-                                                        .data![i]
-                                                        .subcategory!
-                                                        .length;
-                                                j++) {
-                                              print(controller
-                                                  .mergeCategoryModel
-                                                  .value
-                                                  .data![i]
-                                                  .subcategory![j]
-                                                  .selectedSubCategory);
-                                              for (int k = 0;
-                                                  k <
+                                              // Loop through all subcategories to check if any are selected
+                                              bool hasSelectedSubCat = false;
+                                              for (int i = 0;
+                                                  i <
                                                       controller
                                                           .mergeCategoryModel
                                                           .value
-                                                          .data![i]
-                                                          .subcategory![j]
-                                                          .selectedSubCategory
+                                                          .data![index]
+                                                          .subcategory!
                                                           .length;
-                                                  k++) {
-                                                print(controller
-                                                        .mergeCategoryModel
-                                                        .value
-                                                        .data![i]
-                                                        .subcategory![j]
-                                                        .selectedSubCategory[k]
-                                                    ['id']);
+                                                  i++) {
+                                                // Check if the subcategory is selected
                                                 if (controller
-                                                            .mergeCategoryModel
-                                                            .value
-                                                            .data![i]
-                                                            .subcategory![j]
-                                                            .selectedSubCategory[
-                                                        k]['catId'] !=
-                                                    controller
                                                         .mergeCategoryModel
                                                         .value
                                                         .data![index]
-                                                        .id) {
-                                                  controller
-                                                      .mergeCategoryModel
-                                                      .value
-                                                      .data![index]
-                                                      .selectedSubCat = false;
-                                                }
+                                                        .subcategory![i]
+                                                        .isSelectedSubCat
+                                                        .value ==
+                                                    true) {
+                                                  hasSelectedSubCat = true;
+                                                } else {}
+                                              }
+                                              if (hasSelectedSubCat) {
+                                                controller
+                                                    .mergeCategoryModel
+                                                    .value
+                                                    .data![index]
+                                                    .isSelectedCat
+                                                    .value = true;
+                                              } else {
+                                                controller
+                                                    .mergeCategoryModel
+                                                    .value
+                                                    .data![index]
+                                                    .isSelectedCat
+                                                    .value = false;
                                               }
                                             }
                                           }

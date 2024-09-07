@@ -336,8 +336,8 @@ class ExpertEditProfileController extends GetxController {
       'mobile': numberController.text.toString(),
       'email': emailController.text.toString(),
       'address': addressString.toString(),
-      'city': 'Jaipur',
-      'state': 'Rajasthan',
+      'city': cityController.text,
+      'state': stateController.text,
       'lat': latString.toString(),
       'lng': lngString.toString(),
       'category_id': categoryId.toString(),
@@ -389,8 +389,9 @@ class ExpertEditProfileController extends GetxController {
           Get.toNamed(AppRoutes.otpScreen, arguments: [
             "update",
             numberController.text.toString(),
-             result['data']['id']
-          ])!.then((val){
+            result['data']['id']
+          ])!
+              .then((val) {
             // Get.back();
             // Get.find<ExpertProfileController>().profileApiFunction();
           });

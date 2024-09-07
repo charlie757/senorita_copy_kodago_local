@@ -28,14 +28,16 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
         onRefresh: () => controller.allCategoryApiFunction(),
         child: NotificationListener<ScrollNotification>(
           onNotification: (scrollNotification) {
-            if (scrollNotification is ScrollStartNotification) {
-            } else if (scrollNotification is ScrollUpdateNotification) {
-            } else if (scrollNotification is ScrollEndNotification) {
-              if (scrollNotification.metrics.pixels >=
-                  scrollNotification.metrics.maxScrollExtent - 40) {
-                controller.allCategoryPaginationApiFunction();
-                // controller.selectedTabBar.value ==0?
-                // productPaginApiFunction():servicePaginApiFunction();
+            if (scrollNotification.metrics.axis == Axis.vertical) {
+              if (scrollNotification is ScrollStartNotification) {
+              } else if (scrollNotification is ScrollUpdateNotification) {
+              } else if (scrollNotification is ScrollEndNotification) {
+                if (scrollNotification.metrics.pixels >=
+                    scrollNotification.metrics.maxScrollExtent - 40) {
+                  controller.allCategoryPaginationApiFunction();
+                  // controller.selectedTabBar.value ==0?
+                  // productPaginApiFunction():servicePaginApiFunction();
+                }
               }
             }
             return true;
@@ -156,18 +158,12 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                   null &&
                               controller
                                   .savedFilterValues['discount'].isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                left: 15,
-                              ),
-                              child: filtersTypesWidget(
-                                  'Discount', '(${controller.discount.value})',
-                                  () {
-                                controller.discount.value = '';
-                                controller.savedFilterValues['discount'] = '';
-                                controller.allCategoryApiFunction();
-                              }),
-                            )
+                          ? filtersTypesWidget(
+                              'Discount', '(${controller.discount.value})', () {
+                              controller.discount.value = '';
+                              controller.savedFilterValues['discount'] = '';
+                              controller.allCategoryApiFunction();
+                            })
                           : Container(),
                       controller.savedFilterValues.isNotEmpty &&
                               controller.savedFilterValues
@@ -176,30 +172,24 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                   null &&
                               controller
                                   .savedFilterValues['topRated'].isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: filtersTypesWidget('Top Rated', '', () {
-                                controller.rating.value = '';
-                                controller.savedFilterValues['topRated'] = '';
-                                controller.allCategoryApiFunction();
-                              }),
-                            )
+                          ? filtersTypesWidget('Top Rated', '', () {
+                              controller.rating.value = '';
+                              controller.savedFilterValues['topRated'] = '';
+                              controller.allCategoryApiFunction();
+                            })
                           : Container(),
                       controller.savedFilterValues.isNotEmpty &&
                               controller.savedFilterValues
                                   .containsKey('rating') &&
                               controller.savedFilterValues['rating'] != null &&
                               controller.savedFilterValues['rating'].isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: filtersTypesWidget('Rating',
-                                  '(${controller.savedFilterValues['rating']})',
-                                  () {
-                                controller.rating.value = '';
-                                controller.savedFilterValues['rating'] = '';
-                                controller.allCategoryApiFunction();
-                              }),
-                            )
+                          ? filtersTypesWidget('Rating',
+                              '(${controller.savedFilterValues['rating']})',
+                              () {
+                              controller.rating.value = '';
+                              controller.savedFilterValues['rating'] = '';
+                              controller.allCategoryApiFunction();
+                            })
                           : Container(),
                       controller.savedFilterValues.isNotEmpty &&
                               controller.savedFilterValues
@@ -208,18 +198,13 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                   null &&
                               controller
                                   .savedFilterValues['distance'].isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(
-                                left: 15,
-                              ),
-                              child: filtersTypesWidget('Distance',
-                                  '(0-${controller.savedFilterValues['distance']})',
-                                  () {
-                                controller.distance.value = '';
-                                controller.savedFilterValues['distance'] = '';
-                                controller.allCategoryApiFunction();
-                              }),
-                            )
+                          ? filtersTypesWidget('Distance',
+                              '(0-${controller.savedFilterValues['distance']})',
+                              () {
+                              controller.distance.value = '';
+                              controller.savedFilterValues['distance'] = '';
+                              controller.allCategoryApiFunction();
+                            })
                           : Container(),
                       controller.savedFilterValues.isNotEmpty &&
                               controller.savedFilterValues
@@ -228,14 +213,11 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
                                   null &&
                               controller
                                   .savedFilterValues['arrivals'].isNotEmpty
-                          ? Padding(
-                              padding: const EdgeInsets.only(left: 15),
-                              child: filtersTypesWidget('New Arrivals', '', () {
-                                controller.newArrivals.value = '';
-                                controller.savedFilterValues['arrivals'] = '';
-                                controller.allCategoryApiFunction();
-                              }),
-                            )
+                          ? filtersTypesWidget('New Arrivals', '', () {
+                              controller.newArrivals.value = '';
+                              controller.savedFilterValues['arrivals'] = '';
+                              controller.allCategoryApiFunction();
+                            })
                           : Container(),
                     ],
                   ),
@@ -309,30 +291,23 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
   }
 
   selectedCategoryWidget() {
-    print(controller.selectedCatList);
     return Row(
       children: List.generate(controller.selectedCatList.length, (i) {
-        return Padding(
-          padding: const EdgeInsets.only(right: 1),
-          child:
-              filtersTypesWidget(controller.selectedCatList[i]['name'], '', () {
-            controller.selectedCatList.removeAt(i);
-            controller.subCategory.value = controller.selectedCatList
-                .expand((category) => category['subCat'])
-                .map((subCat) => subCat['id'].toString())
-                .join(', ');
-            controller.category.value = controller.selectedCatList
-                .map((category) => category['id'].toString())
-                .join(', ');
-            controller.savedFilterValues['category'] =
-                controller.category.value;
-            controller.savedFilterValues['subcat'] =
-                controller.subCategory.value;
-            controller.savedFilterValues['catList'] =
-                controller.selectedCatList;
-            controller.allCategoryApiFunction();
-          }),
-        );
+        return filtersTypesWidget(controller.selectedCatList[i]['name'], '',
+            () {
+          controller.selectedCatList.removeAt(i);
+          controller.subCategory.value = controller.selectedCatList
+              .expand((category) => category['subCat'])
+              .map((subCat) => subCat['id'].toString())
+              .join(', ');
+          controller.category.value = controller.selectedCatList
+              .map((category) => category['id'].toString())
+              .join(', ');
+          controller.savedFilterValues['category'] = controller.category.value;
+          controller.savedFilterValues['subcat'] = controller.subCategory.value;
+          controller.savedFilterValues['catList'] = controller.selectedCatList;
+          controller.allCategoryApiFunction();
+        });
       }),
     );
   }
@@ -340,6 +315,7 @@ class SingleCategoryListScreen extends GetView<SingleCategoryListController> {
   filtersTypesWidget(String title, String subTitle, Function() onTap) {
     return Container(
       padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       decoration: BoxDecoration(
           color: ColorConstant.white,
           borderRadius: BorderRadius.circular(8),

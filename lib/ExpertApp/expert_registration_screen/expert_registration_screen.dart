@@ -801,14 +801,14 @@ class ExpertRegistrationScreen extends GetView<ExpertRegistrationController> {
                           onTap: () {
                             if (controller.expertRegistration.currentState!
                                 .validate()) {
-                              controller.submitProfileImageApi(context);
                               // if (controller.addressString.value == "") {
                               //   showToast("Select Address");
-                              // } else if (controller.checkBoxValue.value) {
-                              //   controller.submitProfileImageApi(context);
-                              // } else {
-                              //   showToast(signUpCheckBoxValidation);
                               // }
+                              if (controller.checkBoxValue.value) {
+                                controller.submitProfileImageApi(context);
+                              } else {
+                                showToast(signUpCheckBoxValidation);
+                              }
                             } else {}
 
                             /*controller.isLoading.value
