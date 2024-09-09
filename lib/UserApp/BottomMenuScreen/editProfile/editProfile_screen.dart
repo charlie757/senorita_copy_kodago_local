@@ -59,7 +59,7 @@ class EditProfileScreen extends GetView<EditProfileController> {
                           labelText: registerMobileNumber,
                           auto: AutovalidateMode.onUserInteraction,
                           controller: controller.numberController,
-                          isReadOnly: true,
+                          isReadOnly: false,
                           inputFormatters: [
                             new LengthLimitingTextInputFormatter(10),
                             FilteringTextInputFormatter.digitsOnly

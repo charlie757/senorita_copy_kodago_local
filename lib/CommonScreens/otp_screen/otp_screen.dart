@@ -15,8 +15,7 @@ class OtpScreen extends GetView<OtpController> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () async
-      {
+      onWillPop: () async {
         //Get.toNamed(AppRoutes.selectCreateAccount);
         Get.back();
         return false;
@@ -24,7 +23,7 @@ class OtpScreen extends GetView<OtpController> {
       child: Scaffold(
         appBar: appBar(context, "", () {
           Get.back();
-         // Get.toNamed(AppRoutes.selectCreateAccount);
+          // Get.toNamed(AppRoutes.selectCreateAccount);
         }),
         body: SingleChildScrollView(
           child: Padding(
@@ -56,7 +55,7 @@ class OtpScreen extends GetView<OtpController> {
                       fontWeight: FontWeight.w400),
                   ScreenSize.height(24),
                   Padding(
-                    padding: const EdgeInsets.only(left: 15,right: 15),
+                    padding: const EdgeInsets.only(left: 15, right: 15),
                     child: Pinput(
                       length: 6,
 
@@ -71,16 +70,22 @@ class OtpScreen extends GetView<OtpController> {
                       // pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
                       showCursor: true,
                       onCompleted: (pin) => print(pin),
-                    ),),
-                  Obx(()=>controller.isError.value?
-                  Padding(padding:const EdgeInsets.only(top: 5,left: 15),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: getText(title: 'Enter otp',
-                        size: 13, fontFamily: interMedium, color: ColorConstant.redColor,
-                        fontWeight: FontWeight.w500),
+                    ),
                   ),
-                  ):Container()),
+                  Obx(() => controller.isError.value
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 5, left: 15),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: getText(
+                                title: 'Enter otp',
+                                size: 13,
+                                fontFamily: interMedium,
+                                color: ColorConstant.redColor,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )
+                      : Container()),
                   ScreenSize.height(14),
                   Obx(
                     () => controller.counter.value != 0
@@ -145,7 +150,8 @@ class OtpScreen extends GetView<OtpController> {
                                             TextSpan(
                                               text: otpResend2,
                                               style: TextStyle(
-                                                color: ColorConstant.onBoardingBack,
+                                                color: ColorConstant
+                                                    .onBoardingBack,
                                                 fontSize: 13,
                                                 fontFamily: celiaRegular,
                                               ),
@@ -155,24 +161,26 @@ class OtpScreen extends GetView<OtpController> {
                                       )))),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, top: 20),
                     child: CustomBtnNew(
-                          title: verification,
-                          height: 50,
-                          width: double.infinity,
-                          color: ColorConstant.onBoardingBack,
-                          onTap: () {
-                            if(controller.otpController.text.length<6){
-                              controller.isError.value=true;
-                            }
-                            else{
-                              controller.isError.value=false;
-                              controller.verifyOtpApiFunction(context);
-                            }
-
-                          }, rectangleBorder: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.transparent,width: 1.3),
-                      borderRadius: BorderRadius.circular(10),), textColor: ColorConstant.whiteColor,
+                      title: verification,
+                      height: 50,
+                      width: double.infinity,
+                      color: ColorConstant.onBoardingBack,
+                      onTap: () {
+                        if (controller.otpController.text.length < 6) {
+                          controller.isError.value = true;
+                        } else {
+                          controller.isError.value = false;
+                          controller.verifyOtpApiFunction(context);
+                        }
+                      },
+                      rectangleBorder: RoundedRectangleBorder(
+                        side: BorderSide(color: Colors.transparent, width: 1.3),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      textColor: ColorConstant.whiteColor,
                     ),
                   ),
                 ],
@@ -183,6 +191,7 @@ class OtpScreen extends GetView<OtpController> {
       ),
     );
   }
+
   AppBar appBar(BuildContext context, String title, Function() onTap) {
     return AppBar(
       backgroundColor: ColorConstant.white,
@@ -211,5 +220,4 @@ class OtpScreen extends GetView<OtpController> {
       centerTitle: true,
     );
   }
-
 }

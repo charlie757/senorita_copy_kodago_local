@@ -90,8 +90,14 @@ class EditProfileController extends GetxController {
           Get.toNamed(AppRoutes.otpScreen, arguments: [
             "update",
             numberController.text.toString(),
-            profileController.model.value.data!.id
-          ]);
+            profileController.model != null &&
+                    profileController.model.value.data != null
+                ? profileController.model.value.data!.id
+                : ''
+          ])!
+              .then((val) {
+            Get.back();
+          });
           print(profileController.model.value.data!.id);
           Get.find<OtpController>().onInit();
         } else {
